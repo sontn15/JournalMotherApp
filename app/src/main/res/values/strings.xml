@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">JournalMotherApp</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="check_connection_network">Vui lòng kiểm tra lại kết nối mạng</string>
+    <string name="vui_long_doi">Vui lòng đợi</string>
+    <string name="vui_long_nhap_day_du_thong_tin">Vui lòng nhập đầy đủ thông tin</string>
+    <string name="taikhoan_matkhau_khong_dung">Tài khoản hoặc mật khẩu không đúng</string>
+    <string name="dang_nhap_thai_bai">Đăng nhập thất bại</string>
+    <string name="dang_ky_thai_bai">Đăng ký thất bại</string>
+    <string name="username_ton_tai">Tên tài khoản đã tồn tại</string>
+    <string name="tao_tk_thanhcong">Tạo tài khoản thành công</string>
+    <string name="co_loi_xay_ra">Có lỗi xảy ra, liên hệ admin</string>
+    <string name="den_ngay">Đến ngày</string>
+    <string name="tu_ngay">Từ ngày</string>
+    <string name="tim_kiem">Tìm kiếm</string>
+</resources>
