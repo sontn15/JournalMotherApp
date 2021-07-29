@@ -5,7 +5,7 @@
     android:id="@+id/rlLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_500">
+    android:background="@color/colorPrimary">
 
     <ImageView
         android:id="@+id/imv_app"
@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/_38sdp"
         android:scaleX="0.80"
         android:scaleY="0.80"
-        android:src="@drawable/ic_app" />
+        android:src="@drawable/ic_app_256" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -25,6 +25,7 @@
         android:layout_marginRight="@dimen/_10sdp"
         android:background="@color/white"
         android:elevation="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_20sdp"
         app:cardCornerRadius="@dimen/_20sdp">
 
         <LinearLayout
@@ -40,7 +41,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Chào mừng tới Bác sĩ 24/7"
+                android:text="Chào mừng tới Mom Mom"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15ssp" />
 
@@ -84,7 +85,7 @@
                 android:paddingTop="@dimen/_3sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 android:text="Đăng ký tài khoản?"
-                android:textColor="@color/purple_500" />
+                android:textColor="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/btnLogin"
@@ -94,6 +95,7 @@
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/edt_custom_xanhdatroi"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Đăng nhập"

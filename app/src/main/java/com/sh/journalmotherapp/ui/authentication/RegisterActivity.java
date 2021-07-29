@@ -86,7 +86,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
+        String id = CommonUtil.generateUUID();
+
         UserModel userRegister = UserModel.builder()
+                .id(id)
                 .fullName(name.trim())
                 .address(address.trim())
                 .password(password.trim())
@@ -106,7 +109,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     if (dataSnapshot.exists()) {
                         Toast.makeText(RegisterActivity.this, getResources().getString(R.string.username_ton_tai), Toast.LENGTH_SHORT).show();
                     } else {
-                        String id = CommonUtil.generateUUID();
                         FirebaseDatabase.getInstance().getReference().child(Const.FirebaseRef.USERS).child(id).setValue(userRegister);
 
                         Intent mIntent = new Intent(RegisterActivity.this, LoginActivity.class);

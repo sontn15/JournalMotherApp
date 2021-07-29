@@ -18,6 +18,6 @@ public class UserModel {
     private String birthDay;
     private String username;
     private String password;
-
+    private String imageUrl;
 
 }

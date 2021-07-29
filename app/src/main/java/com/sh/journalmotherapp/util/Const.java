@@ -26,6 +26,10 @@ public class Const {
 
     public static class FirebaseRef {
         public static final String USERS = "USERS";
+        public static final String CATEGORIES = "CATEGORIES";
+        public static final String NEWS = "NEWS";
+        public static final String SUPPORTS = "SUPPORTS";
+        public static final String SETTINGS = "SETTINGS";
     }
 
 }

@@ -19,10 +19,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sh.journalmotherapp.MainActivity;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.ui.main.MainActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
@@ -103,23 +103,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    boolean isCheck = false;
                     for (DataSnapshot dataSnap : snapshot.getChildren()) {
                         UserModel user = dataSnap.getValue(UserModel.class);
                         if (user != null) {
                             if (username.equalsIgnoreCase(user.getUsername()) && password.equalsIgnoreCase(user.getPassword())) {
+                                isCheck = true;
+                                preferences.putUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN, user);
+
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
                         }
                     }
-                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.taikhoan_matkhau_khong_dung), Toast.LENGTH_SHORT).show();
+                    if (!isCheck) {
+                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.taikhoan_matkhau_khong_dung), Toast.LENGTH_SHORT).show();
+                    }
                     hiddenProgressDialog();
                 }
 
                 @Override
                 public void onCancelled(@NonNull @NotNull DatabaseError error) {
                     hiddenProgressDialog();
-                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.dang_nhap_thai_bai), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.taikhoan_matkhau_khong_dung), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
