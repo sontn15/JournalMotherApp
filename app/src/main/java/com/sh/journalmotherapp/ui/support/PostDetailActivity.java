@@ -1,11 +1,8 @@
 package com.sh.journalmotherapp.ui.support;
 
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,18 +22,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.CommentsAdapter;
 import com.sh.journalmotherapp.model.PostModel;
-import com.sh.journalmotherapp.ui.main.BaseActivity;
 
 import java.util.Objects;
 
-public class PostDetailActivity extends BaseActivity implements View.OnClickListener, TextWatcher {
+public class PostDetailActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private EditText commentEditText;
 
@@ -123,26 +118,26 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initRecyclerView() {
-        commentsAdapter = new CommentsAdapter();
-        commentsAdapter.setCallback(new CommentsAdapter.Callback() {
-            @Override
-            public void onLongItemClick(View view, int position) {
-                Comment selectedComment = commentsAdapter.getItemByPosition(position);
-                startActionMode(selectedComment);
-            }
-
-            @Override
-            public void onAuthorClick(String authorId, View view) {
-                openProfileActivity(authorId, view);
-            }
-        });
-
-        commentsRecyclerView.setAdapter(commentsAdapter);
-        commentsRecyclerView.setNestedScrollingEnabled(false);
-        commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
-                ((LinearLayoutManager) commentsRecyclerView.getLayoutManager()).getOrientation()));
-
-        commentManager.getCommentsList(this, postId, createOnCommentsChangedDataListener());
+//        commentsAdapter = new CommentsAdapter();
+//        commentsAdapter.setCallback(new CommentsAdapter.Callback() {
+//            @Override
+//            public void onLongItemClick(View view, int position) {
+//                Comment selectedComment = commentsAdapter.getItemByPosition(position);
+//                startActionMode(selectedComment);
+//            }
+//
+//            @Override
+//            public void onAuthorClick(String authorId, View view) {
+//                openProfileActivity(authorId, view);
+//            }
+//        });
+//
+//        commentsRecyclerView.setAdapter(commentsAdapter);
+//        commentsRecyclerView.setNestedScrollingEnabled(false);
+//        commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
+//                ((LinearLayoutManager) commentsRecyclerView.getLayoutManager()).getOrientation()));
+//
+//        commentManager.getCommentsList(this, postId, createOnCommentsChangedDataListener());
     }
 
     @Override
@@ -180,27 +175,27 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
 
         String commentText = commentEditText.getText().toString();
 
-        if (commentText.length() > 0 && isPostExist) {
-            commentManager.createOrUpdateComment(commentText, post.getId(), new OnTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(boolean success) {
-                    if (success) {
-                        scrollToFirstComment();
-                    }
-                }
-            });
-            commentEditText.setText(null);
-            commentEditText.clearFocus();
-            hideKeyBoard();
-        }
+//        if (commentText.length() > 0 && isPostExist) {
+//            commentManager.createOrUpdateComment(commentText, post.getId(), new OnTaskCompleteListener() {
+//                @Override
+//                public void onTaskComplete(boolean success) {
+//                    if (success) {
+//                        scrollToFirstComment();
+//                    }
+//                }
+//            });
+//            commentEditText.setText(null);
+//            commentEditText.clearFocus();
+//            hideKeyBoard();
+//        }
     }
 
     private void openImageDetailScreen() {
-        if (postModel != null) {
-            Intent intent = new Intent(this, ImageDetailActivity.class);
-            intent.putExtra(ImageDetailActivity.IMAGE_URL_EXTRA_KEY, postModel.getImageUrl());
-            startActivity(intent);
-        }
+//        if (postModel != null) {
+//            Intent intent = new Intent(this, ImageDetailActivity.class);
+//            intent.putExtra(ImageDetailActivity.IMAGE_URL_EXTRA_KEY, postModel.getImageUrl());
+//            startActivity(intent);
+//        }
     }
 
     private void hideKeyBoard() {
@@ -212,23 +207,23 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void scrollToFirstComment() {
-        if (postModel != null && postModel.getCommentsCount() > 0) {
-            scrollView.smoothScrollTo(0, commentsLabel.getTop());
-        }
+//        if (postModel != null && postModel.getCommentsCount() > 0) {
+//            scrollView.smoothScrollTo(0, commentsLabel.getTop());
+//        }
     }
 
     private void openProfileActivity(String userId, View view) {
-        Intent intent = new Intent(PostDetailActivity.this, ProfileActivity.class);
-        intent.putExtra(ProfileActivity.USER_ID_EXTRA_KEY, userId);
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && view != null) {
-            ActivityOptions options = ActivityOptions.
-                    makeSceneTransitionAnimation(PostDetailActivity.this,
-                            new android.util.Pair<>(view, getString(R.string.post_author_image_transition_name)));
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }
+//        Intent intent = new Intent(PostDetailActivity.this, ProfileActivity.class);
+//        intent.putExtra(ProfileActivity.USER_ID_EXTRA_KEY, userId);
+//
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && view != null) {
+//            ActivityOptions options = ActivityOptions.
+//                    makeSceneTransitionAnimation(PostDetailActivity.this,
+//                            new android.util.Pair<>(view, getString(R.string.post_author_image_transition_name)));
+//            startActivity(intent, options.toBundle());
+//        } else {
+//            startActivity(intent);
+//        }
     }
 
     @Override
@@ -260,38 +255,38 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (!isPostExist) {
-            return super.onOptionsItemSelected(item);
-        }
-
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.edit_post_action:
-                if (hasAccessToModifyPost()) {
-                    openEditPostActivity();
-                }
-                return true;
-
-            case R.id.delete_post_action:
-                if (hasAccessToModifyPost()) {
-                    attemptToRemovePost();
-                }
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (!isPostExist) {
+//            return super.onOptionsItemSelected(item);
+//        }
+//
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.edit_post_action:
+//                if (hasAccessToModifyPost()) {
+//                    openEditPostActivity();
+//                }
+//                return true;
+//
+//            case R.id.delete_post_action:
+//                if (hasAccessToModifyPost()) {
+//                    attemptToRemovePost();
+//                }
+//                return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void attemptToRemovePost() {
-        if (hasInternetConnection()) {
-            if (!postRemovingProcess) {
-                openConfirmDeletingDialog();
-            }
-        } else {
-            showSnackBar(R.string.internet_connection_failed);
-        }
+//        if (hasInternetConnection()) {
+//            if (!postRemovingProcess) {
+//                openConfirmDeletingDialog();
+//            }
+//        } else {
+//            showSnackBar(R.string.internet_connection_failed);
+//        }
     }
 
     private void openConfirmDeletingDialog() {
@@ -309,29 +304,32 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void removePost() {
-        postManager.removePost(post, new OnTaskCompleteListener() {
-            @Override
-            public void onTaskComplete(boolean success) {
-                if (success) {
-                    Intent intent = getIntent();
-                    setResult(RESULT_OK, intent.putExtra(POST_STATUS_EXTRA_KEY, PostStatus.REMOVED));
-                    finish();
-                } else {
-                    postRemovingProcess = false;
-                    showSnackBar(R.string.error_fail_remove_post);
-                }
-
-                hideProgress();
-            }
-        });
-
-        showProgress(R.string.removing);
-        postRemovingProcess = true;
+//        postManager.removePost(post, new OnTaskCompleteListener() {
+//            @Override
+//            public void onTaskComplete(boolean success) {
+//                if (success) {
+//                    Intent intent = getIntent();
+//                    setResult(RESULT_OK, intent.putExtra(POST_STATUS_EXTRA_KEY, PostStatus.REMOVED));
+//                    finish();
+//                } else {
+//                    postRemovingProcess = false;
+//                    showSnackBar(R.string.error_fail_remove_post);
+//                }
+//
+//                hideProgress();
+//            }
+//        });
+//
+//        showProgress(R.string.removing);
+//        postRemovingProcess = true;
     }
 
     private boolean hasAccessToModifyPost() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        return currentUser != null && post != null && post.getAuthorId().equals(currentUser.getUid());
+//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+//        return currentUser != null && post != null && post.getAuthorId().equals(currentUser.getUid());
+
+
+        return true;
     }
 
     private void updateOptionMenuVisibility() {
@@ -340,19 +338,19 @@ public class PostDetailActivity extends BaseActivity implements View.OnClickList
             deleteActionMenuItem.setVisible(true);
         }
 
-        if (complainActionMenuItem != null && postModel != null && !post.isHasComplain()) {
-            complainActionMenuItem.setVisible(true);
-        }
+//        if (complainActionMenuItem != null && postModel != null && !post.isHasComplain()) {
+//            complainActionMenuItem.setVisible(true);
+//        }
     }
 
     private void openEditPostActivity() {
-        if (hasInternetConnection()) {
-            Intent intent = new Intent(PostDetailActivity.this, EditPostActivity.class);
-            intent.putExtra(EditPostActivity.POST_EXTRA_KEY, post);
-            startActivityForResult(intent, EditPostActivity.EDIT_POST_REQUEST);
-        } else {
-            showSnackBar(R.string.internet_connection_failed);
-        }
+//        if (hasInternetConnection()) {
+//            Intent intent = new Intent(PostDetailActivity.this, EditPostActivity.class);
+//            intent.putExtra(EditPostActivity.POST_EXTRA_KEY, post);
+//            startActivityForResult(intent, EditPostActivity.EDIT_POST_REQUEST);
+//        } else {
+//            showSnackBar(R.string.internet_connection_failed);
+//        }
     }
 
 }

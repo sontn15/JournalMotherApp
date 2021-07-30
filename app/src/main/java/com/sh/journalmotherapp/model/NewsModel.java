@@ -11,14 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostModel implements Serializable {
+public class NewsModel implements Serializable {
 
     private String id;
     private String title;
     private String content;
-    private String createdDate;
     private String imageUrl;
-    private CategoryModel categoryModel;
-    private UserModel author;
+    private String category;
 
 }

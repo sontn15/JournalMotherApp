@@ -19,7 +19,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.DoctorViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private final Context mContext;
     private final List<PostModel> listPostModels;
     private final OnPostItemClickListener listener;
@@ -32,19 +32,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.DoctorViewHold
 
     @NonNull
     @Override
-    public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_post, parent, false);
-        return new DoctorViewHolder(view);
+        return new PostViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DoctorViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         PostModel model = listPostModels.get(position);
 
         holder.titleTextView.setText(model.getTitle());
         holder.detailsTextView.setText(model.getContent());
-        holder.countersContainer.setText("100");
 
         Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.postImageView);
@@ -52,10 +51,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.DoctorViewHold
         Picasso.get().load(model.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.authorImageView);
 
-
-        holder.watcherCounterTextView.setText(model.getWatchersCount() + "");
-        holder.likeCounterTextView.setText(model.getLikesCount() + "");
-        holder.commentsCountTextView.setText(model.getCommentsCount() + "");
         holder.dateTextView.setText(model.getCreatedDate());
 
         holder.bind(model, listener);
@@ -70,24 +65,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.DoctorViewHold
         }
     }
 
-    public static class DoctorViewHolder extends RecyclerView.ViewHolder {
-        protected TextView titleTextView, detailsTextView, countersContainer;
+    public static class PostViewHolder extends RecyclerView.ViewHolder {
+        protected TextView titleTextView, detailsTextView;
         protected ImageView postImageView;
         protected CircleImageView authorImageView;
 
-        protected TextView watcherCounterTextView, likeCounterTextView, commentsCountTextView, dateTextView;
+        protected TextView dateTextView;
 
-        public DoctorViewHolder(@NonNull View itemView) {
+        public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             detailsTextView = itemView.findViewById(R.id.detailsTextView);
-            countersContainer = itemView.findViewById(R.id.countersContainer);
             postImageView = itemView.findViewById(R.id.postImageView);
             authorImageView = itemView.findViewById(R.id.authorImageView);
-
-            watcherCounterTextView = itemView.findViewById(R.id.watcherCounterTextView);
-            likeCounterTextView = itemView.findViewById(R.id.likeCounterTextView);
-            commentsCountTextView = itemView.findViewById(R.id.commentsCountTextView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
         }
 

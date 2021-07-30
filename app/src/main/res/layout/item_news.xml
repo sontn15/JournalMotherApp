@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_230sdp"
+    android:orientation="vertical"
+    android:padding="@dimen/_4sdp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_medium"
+        android:maxLines="2"
+        android:paddingBottom="@dimen/_2sdp"
+        android:text="Upload files with Cloud Storage on Android Upload files with Cloud Storage on Android"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp" />
+
+    <ImageView
+        android:id="@+id/postImageView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_140sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_thumbnail" />
+
+    <TextView
+        android:id="@+id/detailsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ellipsize="end"
+        android:fontFamily="@font/roboto_regular"
+        android:maxLines="2"
+        android:paddingTop="@dimen/_2sdp"
+        android:text="First let's see how we can integrate the photo gallery with your app. Consider the requirement, you want your app user to select an image from the gallery and use that image to do certain things. For example, in the Facebook app you can select a photo from your phone and upload it directly to your profile."
+        android:textSize="@dimen/_13ssp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@color/colorGachChan" />
+</LinearLayout>

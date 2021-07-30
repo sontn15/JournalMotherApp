@@ -14,9 +14,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.PostAdapter;
 import com.sh.journalmotherapp.model.PostModel;
+import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
 import java.util.ArrayList;
@@ -85,7 +91,24 @@ public class SupportFragment extends Fragment implements View.OnClickListener {
 
     private void getAllPosts() {
         if (NetworkUtils.haveNetwork(requireContext())) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Const.FirebaseRef.POSTS);
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
+                        PostModel postModel = dataSnap.getValue(PostModel.class);
+                        if (postModel != null) {
+                            postModelList.add(postModel);
+                            postAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(requireContext(), getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             Toast.makeText(requireContext(), getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
         }

@@ -40,25 +40,25 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Doctor
 
     @Override
     public void onBindViewHolder(@NonNull DoctorViewHolder holder, int position) {
-        CommentModel model = commentModelList.get(position);
-
-        holder.titleTextView.setText(model.getTitle());
-        holder.detailsTextView.setText(model.getContent());
-        holder.countersContainer.setText("100");
-
-        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_256)
-                .error(R.drawable.ic_app_256).into(holder.postImageView);
-
-        Picasso.get().load(model.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
-                .error(R.drawable.ic_app_256).into(holder.authorImageView);
-
-
-        holder.watcherCounterTextView.setText(model.getWatchersCount() + "");
-        holder.likeCounterTextView.setText(model.getLikesCount() + "");
-        holder.commentsCountTextView.setText(model.getCommentsCount() + "");
-        holder.dateTextView.setText(model.getCreatedDate());
-
-        holder.bind(model, listener);
+//        CommentModel model = commentModelList.get(position);
+//
+//        holder.titleTextView.setText(model.getTitle());
+//        holder.detailsTextView.setText(model.getContent());
+//        holder.countersContainer.setText("100");
+//
+//        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_256)
+//                .error(R.drawable.ic_app_256).into(holder.postImageView);
+//
+//        Picasso.get().load(model.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
+//                .error(R.drawable.ic_app_256).into(holder.authorImageView);
+//
+//
+//        holder.watcherCounterTextView.setText(model.getWatchersCount() + "");
+//        holder.likeCounterTextView.setText(model.getLikesCount() + "");
+//        holder.commentsCountTextView.setText(model.getCommentsCount() + "");
+//        holder.dateTextView.setText(model.getCreatedDate());
+//
+//        holder.bind(model, listener);
     }
 
     @Override

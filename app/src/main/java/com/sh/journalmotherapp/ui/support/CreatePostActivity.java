@@ -1,15 +1,19 @@
 package com.sh.journalmotherapp.ui.support;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sh.journalmotherapp.R;
+
+import java.util.Objects;
 
 public class CreatePostActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,8 +25,10 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
-        initView();
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Đăng bài");
 
+        initView();
     }
 
     private void initView() {
@@ -38,6 +44,14 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         imageView.setOnClickListener(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {

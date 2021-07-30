@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
+import com.sh.journalmotherapp.database.ResourceData;
 import com.sh.journalmotherapp.model.UserModel;
 import com.sh.journalmotherapp.ui.main.MainActivity;
 import com.sh.journalmotherapp.util.Const;

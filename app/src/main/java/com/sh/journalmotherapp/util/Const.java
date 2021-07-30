@@ -28,8 +28,12 @@ public class Const {
         public static final String USERS = "USERS";
         public static final String CATEGORIES = "CATEGORIES";
         public static final String NEWS = "NEWS";
-        public static final String SUPPORTS = "SUPPORTS";
+        public static final String POSTS = "POSTS";
         public static final String SETTINGS = "SETTINGS";
+
+        public static final String NEWS_FOOD = "NEWS_FOOD";
+        public static final String NEWS_MOM = "NEWS_MOM";
+        public static final String NEWS_BABY = "NEWS_BABY";
     }
 
     public static class Post {

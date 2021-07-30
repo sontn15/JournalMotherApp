@@ -90,12 +90,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         UserModel userRegister = UserModel.builder()
                 .id(id)
+                .likesCount(0)
                 .fullName(name.trim())
                 .address(address.trim())
                 .password(password.trim())
                 .mobile(phoneNumber.trim())
-                .username(username.trim().toLowerCase())
                 .birthDay(birthDay.trim())
+                .username(username.trim().toLowerCase())
+                .imageUrl("https://firebasestorage.googleapis.com/v0/b/journalmotherapp.appspot.com/o/ic_app_512.png?alt=media&token=4b1c2535-1d28-488a-9b24-7570fb0c4f05")
                 .build();
 
         if (NetworkUtils.haveNetwork(RegisterActivity.this)) {

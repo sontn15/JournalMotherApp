@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/_3sdp"
     tools:context=".ui.support.SupportFragment">
 
     <LinearLayout
         android:id="@+id/llYouThinking"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_alignParentTop="true"
         android:background="@color/white"
         android:orientation="vertical">
@@ -17,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:layout_margin="@dimen/_5sdp">
+            android:layout_margin="@dimen/_5sdp"
+            android:background="@color/white">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imvYou"
@@ -29,12 +29,12 @@
                 android:id="@+id/tvYouThinking"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
                 android:background="@drawable/edt_custom_trang_post"
                 android:gravity="center_vertical"
-                android:paddingLeft="@dimen/_8sdp"
-                android:text="Bạn đang nghĩ gì"
+                android:paddingLeft="@dimen/_15sdp"
+                android:text="Bạn đang nghĩ gì..."
                 android:textSize="@dimen/_14ssp" />
 
         </LinearLayout>
