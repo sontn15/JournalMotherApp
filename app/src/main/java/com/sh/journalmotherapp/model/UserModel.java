@@ -1,5 +1,7 @@
 package com.sh.journalmotherapp.model;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserModel {
+public class UserModel implements Serializable {
 
     private String id;
     private String mobile;
@@ -19,5 +21,6 @@ public class UserModel {
     private String username;
     private String password;
     private String imageUrl;
+    private long likesCount;
 
 }

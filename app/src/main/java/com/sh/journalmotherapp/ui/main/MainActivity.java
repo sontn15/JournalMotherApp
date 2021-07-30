@@ -20,7 +20,6 @@ import com.sh.journalmotherapp.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
