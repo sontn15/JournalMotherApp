@@ -44,6 +44,10 @@
         <activity
             android:name=".ui.support.CreatePostActivity"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.memory.AddMemoryActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

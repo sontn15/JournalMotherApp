@@ -15,6 +15,7 @@ public class MemoryModel {
     private String content;
     private String emotion;
     private String imageUrl;
+    private String createdDate;
     private UserModel userModel;
 
 }

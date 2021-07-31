@@ -1,5 +1,6 @@
 package com.sh.journalmotherapp.ui.memory;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,7 @@ import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.MemoryModel;
 import com.sh.journalmotherapp.model.PostModel;
 import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.ui.support.CreatePostActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
@@ -51,7 +54,6 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
         initAdapter();
         return root;
     }
-
 
     private void initView() {
         btnAdd = root.findViewById(R.id.btnAddMemory);
@@ -121,5 +123,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onClickButtonAddMemory() {
+        Intent intent = new Intent(requireActivity(), AddMemoryActivity.class);
+        startActivity(intent);
     }
 }

@@ -65,6 +65,7 @@
             android:id="@+id/spn_feeling"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/input_layout_feeling"
             android:layout_below="@+id/imageContainer_memory"
             android:layout_toRightOf="@+id/input_layout_feeling" />
 

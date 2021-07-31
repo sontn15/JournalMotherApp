@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.model.MemoryModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,8 +41,11 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
     @Override
     public void onBindViewHolder(@NonNull MemoryViewHolder holder, int position) {
         MemoryModel model = models.get(position);
-
-
+        holder.tvContent.setText(model.getContent());
+        holder.tvFeeling.setText(model.getEmotion());
+        holder.dateTextView.setText(model.getCreatedDate());
+        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_512)
+                .error(R.drawable.ic_app_512).into(holder.imv_memory);
         holder.bind(model, listener);
     }
 
@@ -55,19 +59,17 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
     }
 
     public static class MemoryViewHolder extends RecyclerView.ViewHolder {
-        protected TextView titleTextView, detailsTextView;
-        protected ImageView postImageView;
-        protected CircleImageView authorImageView;
+        protected TextView tvFeeling, tvContent;
+        protected ImageView imv_memory;
 
         protected TextView dateTextView;
 
         public MemoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            detailsTextView = itemView.findViewById(R.id.detailsTextView);
-            postImageView = itemView.findViewById(R.id.postImageView);
-            authorImageView = itemView.findViewById(R.id.authorImageView);
-            dateTextView = itemView.findViewById(R.id.dateTextView);
+            tvFeeling = itemView.findViewById(R.id.tv_feeling);
+            tvContent = itemView.findViewById(R.id.contentTextView);
+            imv_memory = itemView.findViewById(R.id.memoryImageView);
+            dateTextView = itemView.findViewById(R.id.dateTextView_memory);
         }
 
         public void bind(final MemoryModel model, final OnPostItemClickListener listener) {

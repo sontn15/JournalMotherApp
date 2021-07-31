@@ -2,6 +2,7 @@ package com.sh.journalmotherapp.ui.memory;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sh.journalmotherapp.R;
 
-public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     ImageView imv_memory;
     EditText edt_felling, edt_content;
     Spinner spn_feeling;
@@ -26,18 +27,19 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initViews() {
-        imv_memory = this.findViewById(R.id.imageContainer_memory);
+        imv_memory = this.findViewById(R.id.imageView_memory);
         edt_felling = this.findViewById(R.id.fellingEditText);
         edt_content = this.findViewById(R.id.contentEditText);
         btn_Cancel = this.findViewById(R.id.btnCancel_memory);
         btn_Save = this.findViewById(R.id.btnSave_memory);
         spn_feeling = this.findViewById(R.id.spn_feeling);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.feelings));
         spn_feeling.setAdapter(spinnerArrayAdapter);
         btn_Save.setOnClickListener(this);
         btn_Cancel.setOnClickListener(this);
         imv_memory.setOnClickListener(this);
+        spn_feeling.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -53,5 +55,15 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
 
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        edt_felling.setText(parent.getItemAtPosition(position).toString());
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
