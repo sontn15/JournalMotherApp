@@ -3,7 +3,6 @@ package com.sh.journalmotherapp.database;
 import android.content.Context;
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.sh.journalmotherapp.model.CategoryModel;
 import com.sh.journalmotherapp.model.NewsModel;
 import com.sh.journalmotherapp.model.PostModel;
 import com.sh.journalmotherapp.model.UserModel;
@@ -29,34 +28,6 @@ public class ResourceData {
         postModel1.setAuthor(userModel);
 
         FirebaseDatabase.getInstance().getReference(Const.FirebaseRef.POSTS).child(id).setValue(postModel1);
-
-    }
-
-    public static void createCategoryTest() {
-        CategoryModel categoryModel1 = new CategoryModel();
-        String id1 = CommonUtil.generateUUID();
-        categoryModel1.setId(id1);
-        categoryModel1.setName("Food&Nutrition");
-        categoryModel1.setCode("Food&Nutrition");
-        categoryModel1.setDescription("Food&Nutrition");
-
-        CategoryModel categoryModel2 = new CategoryModel();
-        String id2 = CommonUtil.generateUUID();
-        categoryModel2.setId(id2);
-        categoryModel2.setName("Mom Life");
-        categoryModel2.setCode("Mom Life");
-        categoryModel2.setDescription("Mom Life");
-
-        CategoryModel categoryModel3 = new CategoryModel();
-        String id3 = CommonUtil.generateUUID();
-        categoryModel3.setId(id3);
-        categoryModel3.setName("Baby Life");
-        categoryModel3.setCode("Baby Life");
-        categoryModel3.setDescription("Baby Life");
-
-        FirebaseDatabase.getInstance().getReference(Const.FirebaseRef.CATEGORIES).child(id1).setValue(categoryModel1);
-        FirebaseDatabase.getInstance().getReference(Const.FirebaseRef.CATEGORIES).child(id2).setValue(categoryModel2);
-        FirebaseDatabase.getInstance().getReference(Const.FirebaseRef.CATEGORIES).child(id3).setValue(categoryModel3);
 
     }
 

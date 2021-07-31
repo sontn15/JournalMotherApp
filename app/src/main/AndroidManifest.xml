@@ -46,7 +46,7 @@
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.support.PostDetailActivity"
+            android:name=".ui.support.DetailPostActivity"
             android:theme="@style/AppTheme" />
 
         <activity

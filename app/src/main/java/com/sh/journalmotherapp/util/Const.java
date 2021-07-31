@@ -2,15 +2,7 @@ package com.sh.journalmotherapp.util;
 
 public class Const {
 
-    public static final String BENH_VIEN_SELECTED = "BenhVienSelected";
-    public static final String NHOM_BENH_SELECTED = "NhomBenhSelected";
-    public static final String DOCTOR_SELECTED = "DoctorSelected";
-    public static final String HOSPITAL_AUTO_NUMBER_SELECTED = "HospitalAutoNumberSelected";
-    public static final String DOCTOR_SELECTED_CONFIRM = "DoctorSelectedConfirm";
-    public static final String KHOA_KHAM_BENH_SELECTED = "KhoaKhamBenhSelected";
-    public static final String VISIT_EXAM_HISTORY_SELECTED = "VisitExamHistorySelected";
-    public static final String DOCTOR_SELECTED_TYPE = "DoctorSelectedType";
-    public static final String SEARCH_DOCTOR_INFO = "SearchDoctorInfo";
+    public static final String POST_SELECTED = "POST_SELECTED";
 
 
     public static class KEY_SHARE_PREFERENCE {
@@ -29,7 +21,7 @@ public class Const {
         public static final String CATEGORIES = "CATEGORIES";
         public static final String NEWS = "NEWS";
         public static final String POSTS = "POSTS";
-        public static final String SETTINGS = "SETTINGS";
+        public static final String COMMENTS = "COMMENTS";
         public static final String MEMORIES = "MEMORIES";
 
         public static final String NEWS_FOOD = "NEWS_FOOD";

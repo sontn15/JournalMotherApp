@@ -109,17 +109,17 @@
     </string>
 
     <string name="profile_menu_item">Profile</string>
-    <string name="collapse_text_label">show less</string>
-    <string name="expand_text_label">show more</string>
+    <string name="collapse_text_label">Thu gọn</string>
+    <string name="expand_text_label">Mợ rộng</string>
     <string name="add_complain">Complain</string>
-    <string name="edit_post_menu">Edit post</string>
-    <string name="delete_post_menu">Delete post</string>
+    <string name="edit_post_menu">Chỉnh sửa bài</string>
+    <string name="delete_post_menu">Xóa bài</string>
     <string name="complain_text">You can complain to this post if it contains violence,
         bullying and threats, hate speech, tragic events and sexually explicit contents.
         Nobody will see the post if you complain to it. You can\'t delete your complain.</string>
 
-    <string name="send_comment_button_label">Send</string>
-    <string name="posted_by_label">Posted by:</string>
+    <string name="send_comment_button_label">Gửi</string>
+    <string name="posted_by_label">Tạo bởi:</string>
 
     <plurals name="posts_counter_format">
         <item quantity="one">post</item>

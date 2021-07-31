@@ -26,14 +26,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.ImageUploadInfo;
 import com.sh.journalmotherapp.model.MemoryModel;
 import com.sh.journalmotherapp.model.UserModel;
 import com.sh.journalmotherapp.util.CommonUtil;
 import com.sh.journalmotherapp.util.Const;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     ImageView imv_memory;
@@ -71,6 +69,9 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
         btn_Cancel = this.findViewById(R.id.btnCancel_memory);
         btn_Save = this.findViewById(R.id.btnSave_memory);
         spn_feeling = this.findViewById(R.id.spn_feeling);
+
+        progressDialog = new ProgressDialog(AddMemoryActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         btn_Save.setOnClickListener(this);
         btn_Cancel.setOnClickListener(this);
@@ -149,46 +150,45 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
             progressDialog.setTitle("Đang đăng bài...");
             progressDialog.show();
 
-            StorageReference storageReference2nd = storageReference.child(System.currentTimeMillis() + "." + GetFileExtension(FilePathUri));
+            String imageName = userLogin.getUsername() + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri);
+
+            StorageReference storageReference2nd = storageReference.child(imageName);
             storageReference2nd.putFile(FilePathUri)
                     .addOnSuccessListener(taskSnapshot -> {
-                        String TempImageName = userLogin.getUsername() + System.currentTimeMillis();
+                        storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String imageUrl = uri.toString();
 
-                        @SuppressWarnings("VisibleForTests")
-                        ImageUploadInfo imageUploadInfo = new ImageUploadInfo(TempImageName, Objects.requireNonNull(Objects.requireNonNull(taskSnapshot.getMetadata()).getReference()).getDownloadUrl().toString());
+                            String id = CommonUtil.generateUUID();
+                            String content = edt_content.getText().toString();
+                            String felling = edt_felling.getText().toString();
+                            String createdDate = CommonUtil.getCurrentDateStr();
 
-                        String id = CommonUtil.generateUUID();
-                        String content = edt_content.getText().toString();
-                        String createdDate = CommonUtil.getCurrentDateStr();
-                        String felling = edt_felling.getText().toString();
+                            MemoryModel memoryModel = new MemoryModel();
+                            memoryModel.setId(id);
+                            memoryModel.setEmotion(felling);
+                            memoryModel.setContent(content);
+                            memoryModel.setUserModel(userLogin);
+                            memoryModel.setCreatedDate(createdDate);
+                            memoryModel.setImageUrl(imageUrl);
 
-                        MemoryModel memoryModel = new MemoryModel();
-                        memoryModel.setId(id);
-                        memoryModel.setEmotion(felling);
-                        memoryModel.setContent(content);
-                        memoryModel.setUserModel(userLogin);
-                        memoryModel.setCreatedDate(createdDate);
-                        memoryModel.setImageUrl(imageUploadInfo.getImageURL());
+                            databaseReference.child(Const.FirebaseRef.MEMORIES)
+                                    .child(userLogin.getUsername())
+                                    .child(id)
+                                    .setValue(memoryModel);
 
-                        databaseReference.child(Const.FirebaseRef.MEMORIES)
-                                .child(userLogin.getUsername())
-                                .child(id)
-                                .setValue(memoryModel);
-
-
-
-                        progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Đăng bài kỷ niệm thành công", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Đăng bài kỷ niệm thành công", Toast.LENGTH_SHORT).show();
+                        });
                     })
                     .addOnFailureListener(exception -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddMemoryActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Đăng bài kỷ niệm không thành công", Toast.LENGTH_SHORT).show();
                     })
 
                     // On progress change upload time.
                     .addOnProgressListener(taskSnapshot -> progressDialog.setTitle("Đang đăng bài..."));
         } else {
-            Toast.makeText(AddMemoryActivity.this, "Vui lòng chọn ảnh trước khi đăng", Toast.LENGTH_LONG).show();
+            Toast.makeText(AddMemoryActivity.this, "Vui lòng chọn ảnh trước khi đăng", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -201,4 +201,11 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    private void clearData() {
+        edt_felling.setText("");
+        edt_content.setText("");
+        imv_memory.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));
+    }
+
 }

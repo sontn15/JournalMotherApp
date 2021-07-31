@@ -45,8 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.titleTextView.setText(model.getTitle());
         holder.detailsTextView.setText(model.getContent());
 
-        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_256)
-                .error(R.drawable.ic_app_256).into(holder.postImageView);
+        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_512)
+                .error(R.drawable.ic_app_512).into(holder.postImageView);
 
         Picasso.get().load(model.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.authorImageView);
@@ -88,10 +88,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public interface OnPostItemClickListener {
         void onClickItem(PostModel model);
-
-        void onLikeClick(PostModel model);
-
-        void onCommentClick(PostModel model);
     }
 
 }

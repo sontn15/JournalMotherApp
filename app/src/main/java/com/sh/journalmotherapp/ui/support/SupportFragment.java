@@ -67,21 +67,12 @@ public class SupportFragment extends Fragment implements View.OnClickListener {
 
     private void initAdapter() {
         postModelList = new ArrayList<>();
-        postAdapter = new PostAdapter(requireContext(), postModelList, new PostAdapter.OnPostItemClickListener() {
-            @Override
-            public void onClickItem(PostModel model) {
-
-            }
-
-            @Override
-            public void onLikeClick(PostModel model) {
-
-            }
-
-            @Override
-            public void onCommentClick(PostModel model) {
-
-            }
+        postAdapter = new PostAdapter(requireContext(), postModelList, model -> {
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable(Const.POST_SELECTED, model);
+            Intent intent = new Intent(requireActivity(), DetailPostActivity.class);
+            intent.putExtras(mBundle);
+            startActivity(intent);
         });
 
         rcvPost.setAdapter(postAdapter);

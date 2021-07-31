@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,15 +28,28 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.CommentsAdapter;
+import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.CommentModel;
 import com.sh.journalmotherapp.model.PostModel;
+import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.util.CommonUtil;
+import com.sh.journalmotherapp.util.Const;
+import com.sh.journalmotherapp.util.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PostDetailActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class DetailPostActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private EditText commentEditText;
 
@@ -74,8 +88,10 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
     private Button sendButton;
 
+    private UserModel userLogin;
     @Nullable
     private PostModel postModel;
+    private MySharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,9 +99,22 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_post_details);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Chi tiết bài đăng");
-
         initView();
+        initData();
         initRecyclerView();
+    }
+
+    private void initData() {
+        preferences = new MySharedPreferences(this);
+        userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
+        postModel = getIntent().getExtras().getParcelable(Const.POST_SELECTED);
+
+        titleTextView.setText(postModel.getTitle());
+        dateTextView.setText(postModel.getCreatedDate());
+        authorTextView.setText(postModel.getAuthor().getFullName());
+
+        Picasso.get().load(postModel.getImageUrl()).placeholder(R.drawable.ic_app_512)
+                .error(R.drawable.ic_app_512).into(postImageView);
     }
 
 
@@ -103,7 +132,6 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         authorImageView = findViewById(R.id.authorImageView);
         authorTextView = findViewById(R.id.authorTextView);
         dateTextView = findViewById(R.id.dateTextView);
-        commentsProgressBar = findViewById(R.id.commentsProgressBar);
         warningCommentsTextView = findViewById(R.id.warningCommentsTextView);
 
         sendButton = findViewById(R.id.sendButton);
@@ -115,9 +143,8 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initRecyclerView() {
-
-
-        commentsAdapter = new CommentsAdapter(this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
+        commentModelList = new ArrayList<>();
+        commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
             @Override
             public void onClickItem(CommentModel model) {
 
@@ -132,13 +159,37 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         commentsRecyclerView.setAdapter(commentsAdapter);
         commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
-                ((LinearLayoutManager) commentsRecyclerView.getLayoutManager()).getOrientation()));
+                ((LinearLayoutManager) Objects.requireNonNull(commentsRecyclerView.getLayoutManager())).getOrientation()));
 
         getAllCommentOfPost(postModel);
     }
 
     private void getAllCommentOfPost(PostModel postModel) {
+        if (NetworkUtils.haveNetwork(DetailPostActivity.this)) {
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child(Const.FirebaseRef.COMMENTS)
+                    .child(postModel.getId());
 
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
+                        CommentModel postModel = dataSnap.getValue(CommentModel.class);
+                        if (postModel != null) {
+                            commentModelList.add(postModel);
+                            commentsAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -172,19 +223,33 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
         String commentText = commentEditText.getText().toString();
 
-        if (commentText.length() > 0 && isPostExist) {
-            commentManager.createOrUpdateComment(commentText, post.getId(), new OnTaskCompleteListener() {
-                @Override
-                public void onTaskComplete(boolean success) {
-                    if (success) {
-                        scrollToFirstComment();
-                    }
-                }
-            });
-            commentEditText.setText(null);
-            commentEditText.clearFocus();
-            hideKeyBoard();
+        if (commentText.isEmpty()) {
+            Toast.makeText(DetailPostActivity.this, "Vui lòng để lại bình luận", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        String id = CommonUtil.generateUUID();
+        String createdDate = CommonUtil.getCurrentDateStr();
+
+        CommentModel commentModel = new CommentModel();
+        commentModel.setId(id);
+        commentModel.setPost(postModel);
+        commentModel.setContent(commentText);
+        commentModel.setUserComment(userLogin);
+        commentModel.setCreatedDate(createdDate);
+
+        FirebaseDatabase.getInstance().getReference()
+                .child(Const.FirebaseRef.COMMENTS)
+                .child(postModel.getId())
+                .child(id)
+                .setValue(commentModel, (OnCompleteListener<CommentModel>) task -> {
+                    scrollToFirstComment();
+                });
+
+
+        commentEditText.setText(null);
+        commentEditText.clearFocus();
+        hideKeyBoard();
     }
 
     private void hideKeyBoard() {
@@ -196,7 +261,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void scrollToFirstComment() {
-        if (postModel != null && postModel.getCommentsCount() > 0) {
+        if (postModel != null && commentModelList.size() > 0) {
             scrollView.smoothScrollTo(0, commentsLabel.getTop());
         }
     }
