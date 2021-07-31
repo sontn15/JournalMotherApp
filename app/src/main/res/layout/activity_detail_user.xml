@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,14 +15,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_100sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/colorPrimary"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/_10sdp"
                 android:weightSum="3">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:orientation="vertical" />
 
@@ -32,12 +33,14 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorPrimary"
                     android:src="@mipmap/ic_launcher" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:orientation="vertical" />
             </LinearLayout>
@@ -46,26 +49,28 @@
                 android:id="@+id/tvNameUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/colorPrimary"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
+                android:paddingTop="@dimen/_10sdp"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_14ssp" />
 
             <TextView
                 android:id="@+id/tvBirthDayUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:paddingBottom="@dimen/_10sdp"
+                android:textColor="@color/white"
                 android:textSize="@dimen/_13ssp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_5sdp"
                 android:fontFamily="@font/roboto_bold"
                 android:padding="@dimen/_6sdp"
                 android:textSize="@dimen/_13ssp" />
@@ -74,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_5sdp">
 
                 <TextView

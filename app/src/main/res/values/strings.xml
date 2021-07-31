@@ -11,6 +11,7 @@
     <string name="menu_support">Tư vấn, giúp đỡ</string>
     <string name="menu_memory">Kỉ niệm</string>
     <string name="menu_setting">Cài đặt</string>
+    <string name="menu_account">Tài khoản</string>
 
     <string name="check_connection_network">Vui lòng kiểm tra lại kết nối mạng</string>
     <string name="vui_long_doi">Vui lòng đợi</string>
