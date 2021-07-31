@@ -110,7 +110,7 @@
 
     <string name="profile_menu_item">Profile</string>
     <string name="collapse_text_label">Thu gọn</string>
-    <string name="expand_text_label">Mợ rộng</string>
+    <string name="expand_text_label">Xem thêm</string>
     <string name="add_complain">Complain</string>
     <string name="edit_post_menu">Chỉnh sửa bài</string>
     <string name="delete_post_menu">Xóa bài</string>

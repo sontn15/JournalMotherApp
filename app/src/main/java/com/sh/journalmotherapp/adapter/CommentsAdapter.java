@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sh.journalmotherapp.R;
+import com.sh.journalmotherapp.custom.ExpandableTextView;
 import com.sh.journalmotherapp.model.CommentModel;
 import com.sh.journalmotherapp.util.FormatterUtil;
 import com.squareup.picasso.Picasso;
@@ -64,6 +64,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
                 0, model.getUserComment().getFullName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.commentTextView.setText(model.getContent());
 
+        holder.tvNameUserComment.setText(model.getUserComment().getFullName());
+
         Picasso.get().load(model.getUserComment().getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.avatarImageView);
 
@@ -80,15 +82,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
-        protected TextView dateTextView;
+        protected TextView dateTextView, tvNameUserComment;
         protected CircleImageView avatarImageView;
         protected ExpandableTextView commentTextView;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            commentTextView = itemView.findViewById(R.id.commentTextViewComment);
-            avatarImageView = itemView.findViewById(R.id.avatarImageViewComment);
-            dateTextView = itemView.findViewById(R.id.dateTextViewComment);
+            tvNameUserComment = (TextView) itemView.findViewById(R.id.tvNameUserComment);
+            commentTextView = (ExpandableTextView) itemView.findViewById(R.id.commentTextComment);
+            avatarImageView = (CircleImageView) itemView.findViewById(R.id.avatarImageViewComment);
+            dateTextView = (TextView) itemView.findViewById(R.id.dateTextViewComment);
         }
 
         public void bind(final CommentModel model, final OnCommentItemClickListener listener) {

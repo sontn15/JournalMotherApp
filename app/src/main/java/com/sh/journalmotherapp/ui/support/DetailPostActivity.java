@@ -140,6 +140,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
 
     private void initRecyclerView() {
         commentModelList = new ArrayList<>();
+
         commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
 
             @Override
@@ -158,6 +159,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
 
     private void getAllCommentOfPost(PostModel postModel) {
         if (NetworkUtils.haveNetwork(DetailPostActivity.this)) {
+            commentModelList.clear();
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child(Const.FirebaseRef.COMMENTS)
                     .child(postModel.getId());
