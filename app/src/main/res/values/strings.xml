@@ -156,4 +156,15 @@
 
     <!--Firebase errors-->
     <string name="permission_denied_error">Please check your rules to access the Firebase Realtime Database</string>
+    <string name="hint_felling">Tâm trạng</string>
+    <string name="hint_memory">Bạn đang nghĩ gì?</string>
+
+    <string-array name="feelings">
+        <item>Vui vẻ</item>
+        <item>Hạnh phúc</item>
+        <item>Háo hức</item>
+        <item>Phấn khích</item>
+        <item>Mệt mỏi</item>
+        <item>Lo lắng</item>
+    </string-array>
 </resources>
