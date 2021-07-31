@@ -1,11 +1,7 @@
 package com.sh.journalmotherapp.database;
 
-import android.content.Context;
-
 import com.google.firebase.database.FirebaseDatabase;
 import com.sh.journalmotherapp.model.NewsModel;
-import com.sh.journalmotherapp.model.PostModel;
-import com.sh.journalmotherapp.model.UserModel;
 import com.sh.journalmotherapp.util.CommonUtil;
 import com.sh.journalmotherapp.util.Const;
 
@@ -142,16 +138,16 @@ public class ResourceData {
         newsModel31.setId(id31);
         newsModel31.setTitle("Chăm sóc trẻ sơ sinh đến khi đầy tháng");
         newsModel31.setContent("7 ngày đầu sau sinh là khoảng thời gian khá quan trọng đối với một đứa trẻ sơ sinh chưa đầy tháng vì đây vẫn còn là thời kỳ chu sinh của trẻ và khả năng trẻ bị tử vong nếu không được chăm sóc đúng cách là rất cao (chiếm 50%). Trong giai đoạn này, thần kinh sọ não của trẻ bị ức chế vì ngủ nhiều, trẻ chỉ thức dậy khi đói hoặc ướt tã, do đó, cha mẹ cần có sự quan tâm, chăm sóc đặc biệt.\n" +
-                        "\n" +
-                        "Cách chăm sóc trẻ sơ sinh dưới 1 tháng tuổi là cần phải giữ ấm cơ thể trẻ, nếu để trẻ bị rét, hạ thân nhiệt trong thời gian dài sẽ tạo điều kiện cho vi khuẩn tấn công trẻ và gây ra nhiều bệnh. Nếu không có vấn đề gì xảy ra với mẹ và trẻ sau khi sinh thì tốt nhất hãy để trẻ được nằm chung với mẹ, điều này vừa giúp kết nối tình mẫu tử, vừa giúp truyền hơi ấm từ mẹ sang con và mẹ có thể quan sát con mọi lúc, kịp thời xử lý khi có vấn đề không mong muốn xảy ra.\n" +
-                        "\n" +
-                        "Khi còn trong bụng mẹ, trẻ được cung cấp chất dinh dưỡng liên tục từ máu mẹ qua nhau thai, chính vì thế khi chào đời trẻ dễ bị đói, rét nên cần phải có đủ năng lượng để sưởi ấm cơ thể và chống đỡ với thời tiết bên ngoài. Khi chăm sóc trẻ sơ sinh dưới 1 tuần tuổi cần phải nhớ rằng trẻ có nhu cầu ăn rất cao, cần được bú mẹ càng sớm càng tốt ngay khi chào đời nên mẹ phải đáp ứng nhu cầu của trẻ ngay khi bé cần chứ không nên tuân theo một giờ giấc nhất định nào.\n" +
-                        "\n" +
-                        "Sữa non là thức ăn chính và tốt nhất cho sự phát triển của trẻ trong giai đoạn này. Khoa học đã chứng minh, chất IgA có trong sữa mẹ 7 ngày đầu có chứa hàm lượng cao gấp nghìn lần so với sữa thường và có tới 4.000 bạch cầu trong 1cm3 sữa non có khả năng giúp trẻ tiêu diệt các vi khuẩn đường ruột. Chính vì vậy, mẹ không nên vắt sữa non bỏ đi mà hãy tận dụng triệt để cho trẻ ăn. Trẻ sơ sinh chưa đầy tháng nếu được bú sữa non ngay sau khi sinh thì tỷ lệ bị viêm phổi và tiêu chảy sẽ rất thấp.\n" +
-                        "\n" +
-                        "Một số biểu hiện sinh lý bình thường cũng rất thường gặp ở trẻ sơ sinh chưa chưa đầy tháng như: đi ngoài phân su, phân có màu xanh thẫm hoặc không mùi, đặc quánh... Tuy nhiên, nếu quá 2 ngày mà không thấy trẻ đi ngoài phân su, giảm cân hay vàng da, thường xuyên bị sặc khi bú, khó thở, tím tái, cứng hàm, khóc nhiều, ngủ li bì là biểu hiện không bình thường, cha mẹ cần đưa trẻ đến bệnh viện kiểm tra tình trạng sức khỏe để có hướng xử lý kịp thời. Trong trường hợp đầu của trẻ có bướu huyết thanh thì cần theo dõi chứ không nên chọc hút vì có thể bị khiến trẻ bị nhiễm khuẩn gây nguy hiểm.\n" +
-                        "\n" +
-                        "Ngoài ra, khi chăm sóc trẻ sơ sinh dưới 1 tuần tuổi bị nhẹ cân, thiếu tháng nhưng không có các dấu hiệu bất thường thì cần theo dõi ở cơ sở y tế đến khi bác sĩ đồng ý cho xuất viện. Khi về nhà cần theo dõi và chăm sóc trẻ cẩn thận.");
+                "\n" +
+                "Cách chăm sóc trẻ sơ sinh dưới 1 tháng tuổi là cần phải giữ ấm cơ thể trẻ, nếu để trẻ bị rét, hạ thân nhiệt trong thời gian dài sẽ tạo điều kiện cho vi khuẩn tấn công trẻ và gây ra nhiều bệnh. Nếu không có vấn đề gì xảy ra với mẹ và trẻ sau khi sinh thì tốt nhất hãy để trẻ được nằm chung với mẹ, điều này vừa giúp kết nối tình mẫu tử, vừa giúp truyền hơi ấm từ mẹ sang con và mẹ có thể quan sát con mọi lúc, kịp thời xử lý khi có vấn đề không mong muốn xảy ra.\n" +
+                "\n" +
+                "Khi còn trong bụng mẹ, trẻ được cung cấp chất dinh dưỡng liên tục từ máu mẹ qua nhau thai, chính vì thế khi chào đời trẻ dễ bị đói, rét nên cần phải có đủ năng lượng để sưởi ấm cơ thể và chống đỡ với thời tiết bên ngoài. Khi chăm sóc trẻ sơ sinh dưới 1 tuần tuổi cần phải nhớ rằng trẻ có nhu cầu ăn rất cao, cần được bú mẹ càng sớm càng tốt ngay khi chào đời nên mẹ phải đáp ứng nhu cầu của trẻ ngay khi bé cần chứ không nên tuân theo một giờ giấc nhất định nào.\n" +
+                "\n" +
+                "Sữa non là thức ăn chính và tốt nhất cho sự phát triển của trẻ trong giai đoạn này. Khoa học đã chứng minh, chất IgA có trong sữa mẹ 7 ngày đầu có chứa hàm lượng cao gấp nghìn lần so với sữa thường và có tới 4.000 bạch cầu trong 1cm3 sữa non có khả năng giúp trẻ tiêu diệt các vi khuẩn đường ruột. Chính vì vậy, mẹ không nên vắt sữa non bỏ đi mà hãy tận dụng triệt để cho trẻ ăn. Trẻ sơ sinh chưa đầy tháng nếu được bú sữa non ngay sau khi sinh thì tỷ lệ bị viêm phổi và tiêu chảy sẽ rất thấp.\n" +
+                "\n" +
+                "Một số biểu hiện sinh lý bình thường cũng rất thường gặp ở trẻ sơ sinh chưa chưa đầy tháng như: đi ngoài phân su, phân có màu xanh thẫm hoặc không mùi, đặc quánh... Tuy nhiên, nếu quá 2 ngày mà không thấy trẻ đi ngoài phân su, giảm cân hay vàng da, thường xuyên bị sặc khi bú, khó thở, tím tái, cứng hàm, khóc nhiều, ngủ li bì là biểu hiện không bình thường, cha mẹ cần đưa trẻ đến bệnh viện kiểm tra tình trạng sức khỏe để có hướng xử lý kịp thời. Trong trường hợp đầu của trẻ có bướu huyết thanh thì cần theo dõi chứ không nên chọc hút vì có thể bị khiến trẻ bị nhiễm khuẩn gây nguy hiểm.\n" +
+                "\n" +
+                "Ngoài ra, khi chăm sóc trẻ sơ sinh dưới 1 tuần tuổi bị nhẹ cân, thiếu tháng nhưng không có các dấu hiệu bất thường thì cần theo dõi ở cơ sở y tế đến khi bác sĩ đồng ý cho xuất viện. Khi về nhà cần theo dõi và chăm sóc trẻ cẩn thận.");
         newsModel31.setCategory(Const.FirebaseRef.NEWS_BABY);
         newsModel31.setImageUrl("https://vinmec-prod.s3.amazonaws.com/images/20190809_115531_333759_tre-em.max-800x800.jpg");
         FirebaseDatabase.getInstance().getReference(Const.FirebaseRef.NEWS).

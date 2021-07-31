@@ -7,16 +7,16 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,11 +32,11 @@ import com.sh.journalmotherapp.util.CommonUtil;
 import com.sh.journalmotherapp.util.Const;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     ImageView imv_memory;
     EditText edt_felling, edt_content;
-    Spinner spn_feeling;
     Button btn_Cancel, btn_Save;
 
     // Creating URI.
@@ -57,9 +57,12 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Đăng bài kỉ niệm");
+
         initViews();
-        initAdapter();
         initData();
+        clearData();
     }
 
     private void initViews() {
@@ -68,7 +71,6 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
         edt_content = this.findViewById(R.id.contentEditText);
         btn_Cancel = this.findViewById(R.id.btnCancel_memory);
         btn_Save = this.findViewById(R.id.btnSave_memory);
-        spn_feeling = this.findViewById(R.id.spn_feeling);
 
         progressDialog = new ProgressDialog(AddMemoryActivity.this);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -76,13 +78,6 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
         btn_Save.setOnClickListener(this);
         btn_Cancel.setOnClickListener(this);
         imv_memory.setOnClickListener(this);
-        spn_feeling.setOnItemSelectedListener(this);
-    }
-
-    private void initAdapter() {
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.feelings));
-        spn_feeling.setAdapter(spinnerArrayAdapter);
     }
 
     private void initData() {
@@ -97,13 +92,22 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imageContainer_memory:
+            case R.id.imageView_memory:
                 onClickPickImageMemory();
                 break;
             case R.id.btnCancel_memory:
-
+                onClickCancelPostMemory();
                 break;
             case R.id.btnSave_memory:
                 onClickSaveMemory();
@@ -112,40 +116,6 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void onClickSaveMemory() {
-        UploadImageFileToFirebaseStorage();
-    }
-
-    private void onClickPickImageMemory() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Please Select Image"), Image_Request_Code);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Image_Request_Code && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            FilePathUri = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
-                imv_memory.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public String GetFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-
-    }
-
-    // Creating UploadImageFileToFirebaseStorage method to upload image on storage.
-    public void UploadImageFileToFirebaseStorage() {
         if (FilePathUri != null) {
             progressDialog.setTitle("Đang đăng bài...");
             progressDialog.show();
@@ -178,6 +148,8 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
 
                             progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Đăng bài kỷ niệm thành công", Toast.LENGTH_SHORT).show();
+
+                            onBackPressed();
                         });
                     })
                     .addOnFailureListener(exception -> {
@@ -190,6 +162,38 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
         } else {
             Toast.makeText(AddMemoryActivity.this, "Vui lòng chọn ảnh trước khi đăng", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void onClickCancelPostMemory() {
+        onBackPressed();
+    }
+
+    private void onClickPickImageMemory() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Please Select Image"), Image_Request_Code);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Image_Request_Code && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            FilePathUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
+                imv_memory.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String GetFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+
     }
 
     @Override

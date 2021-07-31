@@ -11,42 +11,27 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <RelativeLayout
-            android:id="@+id/imageContainer"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:src="@drawable/ic_stub" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-
-        </RelativeLayout>
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:focusable="true"
+            android:src="@drawable/ic_stub" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageContainer"
+            android:layout_below="@+id/imageView"
             android:layout_marginBottom="@dimen/_8sdp">
 
             <EditText
                 android:id="@+id/titleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:hint="@string/hint_title"
                 android:inputType="textMultiLine" />
 
@@ -63,6 +48,7 @@
                 android:id="@+id/descriptionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="start"
                 android:hint="@string/hint_description"
                 android:inputType="textMultiLine" />
@@ -88,7 +74,7 @@
                 android:background="@drawable/edt_custom_xam"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Hủy bỏ"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
             <Button

@@ -59,6 +59,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setTitle("Đăng bài");
         initData();
         initView();
+        clearData();
     }
 
     private void initData() {
@@ -148,6 +149,8 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
                             progressDialog.dismiss();
                             Toast.makeText(CreatePostActivity.this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
+
+                            onBackPressed();
                         });
                     })
                     .addOnFailureListener(exception -> {

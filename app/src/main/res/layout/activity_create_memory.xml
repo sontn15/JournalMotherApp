@@ -16,40 +16,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:paddingLeft="30dp"
-            android:text="Chia sẻ khoảnh khắc" />
+            android:fontFamily="@font/roboto_medium"
+            android:paddingBottom="@dimen/_8sdp"
+            android:text="Chia sẻ khoảnh khắc"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_14ssp" />
 
-        <RelativeLayout
-            android:id="@+id/imageContainer_memory"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <ImageView
+            android:id="@+id/imageView_memory"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             android:layout_below="@+id/tv_img_share"
-            android:layout_marginBottom="@dimen/_8sdp">
-
-            <ImageView
-                android:id="@+id/imageView_memory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:src="@drawable/ic_stub" />
-
-            <ProgressBar
-                android:id="@+id/progressBar_memory"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:src="@drawable/ic_stub" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_feeling"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageContainer_memory"
+            android:layout_below="@+id/imageView_memory"
             android:layout_marginBottom="@dimen/_8sdp">
 
             <EditText
@@ -60,14 +45,6 @@
                 android:inputType="textMultiLine" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <Spinner
-            android:id="@+id/spn_feeling"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/input_layout_feeling"
-            android:layout_below="@+id/imageContainer_memory"
-            android:layout_toRightOf="@+id/input_layout_feeling" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +82,7 @@
                 android:background="@drawable/edt_custom_xam"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Hủy"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
             <Button

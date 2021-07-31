@@ -1,5 +1,6 @@
 package com.sh.journalmotherapp.ui.news;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +52,12 @@ public class BabyLifeFragment extends Fragment {
 
     private void initAdapter() {
         listModel = new ArrayList<>();
-        adapter = new NewsAdapter(requireContext(), listModel, new NewsAdapter.OnPostItemClickListener() {
-            @Override
-            public void onClickItem(NewsModel model) {
-
-            }
+        adapter = new NewsAdapter(requireContext(), listModel, model -> {
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable(Const.NEWS_SELECTED, model);
+            Intent intent = new Intent(requireActivity(), DetailNewsActivity.class);
+            intent.putExtras(mBundle);
+            startActivity(intent);
         });
         rcvView.setAdapter(adapter);
 
@@ -64,6 +66,7 @@ public class BabyLifeFragment extends Fragment {
 
     private void getAllPosts() {
         if (NetworkUtils.haveNetwork(requireContext())) {
+            listModel.clear();
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child(Const.FirebaseRef.NEWS)
@@ -76,9 +79,9 @@ public class BabyLifeFragment extends Fragment {
                         NewsModel postModel = dataSnap.getValue(NewsModel.class);
                         if (postModel != null) {
                             listModel.add(postModel);
-                            adapter.notifyDataSetChanged();
                         }
                     }
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override

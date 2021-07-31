@@ -3,6 +3,7 @@ package com.sh.journalmotherapp.util;
 public class Const {
 
     public static final String POST_SELECTED = "POST_SELECTED";
+    public static final String NEWS_SELECTED = "NEWS_SELECTED";
 
 
     public static class KEY_SHARE_PREFERENCE {
@@ -45,5 +46,7 @@ public class Const {
         public static final int MAX_NAME_LENGTH = 120;
     }
 
+
+    public static final String TOPIC_APP = "TopicApp";
 
 }

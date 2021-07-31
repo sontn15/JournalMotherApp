@@ -159,6 +159,8 @@
     <string name="permission_denied_error">Please check your rules to access the Firebase Realtime Database</string>
     <string name="hint_felling">Tâm trạng</string>
     <string name="hint_memory">Bạn đang nghĩ gì?</string>
+    <string name="default_notification_channel_id">JournalMother</string>
+    <string name="fcm_message">Journal Mother Message</string>
 
     <string-array name="feelings">
         <item>Vui vẻ</item>

@@ -82,6 +82,8 @@ public class SupportFragment extends Fragment implements View.OnClickListener {
 
     private void getAllPosts() {
         if (NetworkUtils.haveNetwork(requireContext())) {
+            postModelList.clear();
+
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Const.FirebaseRef.POSTS);
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

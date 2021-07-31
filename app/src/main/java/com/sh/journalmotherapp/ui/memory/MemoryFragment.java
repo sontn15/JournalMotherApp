@@ -85,6 +85,8 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
 
     private void getAllMemories() {
         if (NetworkUtils.haveNetwork(requireContext())) {
+            memoryModels.clear();
+
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
                     .child(Const.FirebaseRef.MEMORIES)
                     .child(userLogin.getUsername());
@@ -96,9 +98,9 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                         MemoryModel model = dataSnap.getValue(MemoryModel.class);
                         if (model != null) {
                             memoryModels.add(model);
-                            memoryAdapter.notifyDataSetChanged();
                         }
                     }
+                    memoryAdapter.notifyDataSetChanged();
                 }
 
                 @Override
