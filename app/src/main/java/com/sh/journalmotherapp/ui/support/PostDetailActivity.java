@@ -23,12 +23,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.CommentsAdapter;
+import com.sh.journalmotherapp.model.CommentModel;
 import com.sh.journalmotherapp.model.PostModel;
 
+import java.util.List;
 import java.util.Objects;
 
 public class PostDetailActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
@@ -39,9 +43,6 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     private ViewGroup likesContainer;
     private ImageView likesImageView;
     private TextView commentsLabel;
-    private TextView likeCounterTextView;
-    private TextView commentsCountTextView;
-    private TextView watcherCounterTextView;
     private TextView authorTextView;
     private TextView dateTextView;
     private ImageView authorImageView;
@@ -59,15 +60,16 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     private MenuItem editActionMenuItem;
     private MenuItem deleteActionMenuItem;
 
-    private String postId;
-
     private boolean postRemovingProcess = false;
     private boolean isPostExist;
     private boolean authorAnimationInProgress = false;
 
     private boolean isAuthorAnimationRequired;
-    private CommentsAdapter commentsAdapter;
     private ActionMode mActionMode;
+
+    private CommentsAdapter commentsAdapter;
+    private List<CommentModel> commentModelList;
+
     private boolean isEnterTransitionFinished = false;
 
     private Button sendButton;
@@ -80,6 +82,7 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Chi tiết bài đăng");
 
         initView();
         initRecyclerView();
@@ -99,45 +102,43 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
         likesImageView = findViewById(R.id.likesImageView);
         authorImageView = findViewById(R.id.authorImageView);
         authorTextView = findViewById(R.id.authorTextView);
-        likeCounterTextView = findViewById(R.id.likeCounterTextView);
-        commentsCountTextView = findViewById(R.id.commentsCountTextView);
-        watcherCounterTextView = findViewById(R.id.watcherCounterTextView);
         dateTextView = findViewById(R.id.dateTextView);
         commentsProgressBar = findViewById(R.id.commentsProgressBar);
         warningCommentsTextView = findViewById(R.id.warningCommentsTextView);
 
         sendButton = findViewById(R.id.sendButton);
 
-
-        postImageView.setOnClickListener(this);
         sendButton.setOnClickListener(this);
-        commentsCountTextView.setOnClickListener(this);
         commentEditText.addTextChangedListener(this);
 
         supportPostponeEnterTransition();
     }
 
     private void initRecyclerView() {
-//        commentsAdapter = new CommentsAdapter();
-//        commentsAdapter.setCallback(new CommentsAdapter.Callback() {
-//            @Override
-//            public void onLongItemClick(View view, int position) {
-//                Comment selectedComment = commentsAdapter.getItemByPosition(position);
-//                startActionMode(selectedComment);
-//            }
-//
-//            @Override
-//            public void onAuthorClick(String authorId, View view) {
-//                openProfileActivity(authorId, view);
-//            }
-//        });
-//
-//        commentsRecyclerView.setAdapter(commentsAdapter);
-//        commentsRecyclerView.setNestedScrollingEnabled(false);
-//        commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
-//                ((LinearLayoutManager) commentsRecyclerView.getLayoutManager()).getOrientation()));
-//
-//        commentManager.getCommentsList(this, postId, createOnCommentsChangedDataListener());
+
+
+        commentsAdapter = new CommentsAdapter(this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
+            @Override
+            public void onClickItem(CommentModel model) {
+
+            }
+
+            @Override
+            public void onClickAuthor(CommentModel model) {
+                openProfileActivity(model);
+            }
+        });
+
+        commentsRecyclerView.setAdapter(commentsAdapter);
+        commentsRecyclerView.setNestedScrollingEnabled(false);
+        commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
+                ((LinearLayoutManager) commentsRecyclerView.getLayoutManager()).getOrientation()));
+
+        getAllCommentOfPost(postModel);
+    }
+
+    private void getAllCommentOfPost(PostModel postModel) {
+
     }
 
     @Override
@@ -153,10 +154,6 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.postImageView: {
-                openImageDetailScreen();
-                break;
-            }
             case R.id.sendButton: {
                 onClickSendComment();
                 break;
@@ -175,27 +172,19 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
 
         String commentText = commentEditText.getText().toString();
 
-//        if (commentText.length() > 0 && isPostExist) {
-//            commentManager.createOrUpdateComment(commentText, post.getId(), new OnTaskCompleteListener() {
-//                @Override
-//                public void onTaskComplete(boolean success) {
-//                    if (success) {
-//                        scrollToFirstComment();
-//                    }
-//                }
-//            });
-//            commentEditText.setText(null);
-//            commentEditText.clearFocus();
-//            hideKeyBoard();
-//        }
-    }
-
-    private void openImageDetailScreen() {
-//        if (postModel != null) {
-//            Intent intent = new Intent(this, ImageDetailActivity.class);
-//            intent.putExtra(ImageDetailActivity.IMAGE_URL_EXTRA_KEY, postModel.getImageUrl());
-//            startActivity(intent);
-//        }
+        if (commentText.length() > 0 && isPostExist) {
+            commentManager.createOrUpdateComment(commentText, post.getId(), new OnTaskCompleteListener() {
+                @Override
+                public void onTaskComplete(boolean success) {
+                    if (success) {
+                        scrollToFirstComment();
+                    }
+                }
+            });
+            commentEditText.setText(null);
+            commentEditText.clearFocus();
+            hideKeyBoard();
+        }
     }
 
     private void hideKeyBoard() {
@@ -207,12 +196,12 @@ public class PostDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void scrollToFirstComment() {
-//        if (postModel != null && postModel.getCommentsCount() > 0) {
-//            scrollView.smoothScrollTo(0, commentsLabel.getTop());
-//        }
+        if (postModel != null && postModel.getCommentsCount() > 0) {
+            scrollView.smoothScrollTo(0, commentsLabel.getTop());
+        }
     }
 
-    private void openProfileActivity(String userId, View view) {
+    private void openProfileActivity(CommentModel model) {
 //        Intent intent = new Intent(PostDetailActivity.this, ProfileActivity.class);
 //        intent.putExtra(ProfileActivity.USER_ID_EXTRA_KEY, userId);
 //

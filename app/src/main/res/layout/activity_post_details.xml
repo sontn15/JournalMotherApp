@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -85,15 +84,42 @@
                     android:textAppearance="@dimen/_14ssp" />
             </LinearLayout>
 
-            <include
+
+            <LinearLayout
                 android:id="@+id/countersContainer"
-                layout="@layout/counters_panel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/authorContainer"
                 android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_8sdp" />
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:id="@+id/dateContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp">
+
+                    <ImageView
+                        android:id="@+id/dateImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_time" />
+
+                    <TextView
+                        android:id="@+id/dateTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:textAppearance="@dimen/_14ssp" />
+
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/descriptionEditText"
@@ -133,7 +159,7 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:layoutManager="LinearLayoutManager"
-                    tools:listitem="@layout/comment_list_item" />
+                    tools:listitem="@layout/item_list_comment" />
 
                 <ProgressBar
                     android:id="@+id/commentsProgressBar"

@@ -46,6 +46,10 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".ui.support.PostDetailActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.memory.AddMemoryActivity"
             android:theme="@style/AppTheme" />
 
