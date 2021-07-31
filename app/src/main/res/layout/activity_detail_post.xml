@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/titleTextView"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="@dimen/_8sdp"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/_16sdp"
                 android:paddingRight="@dimen/_16sdp">
@@ -87,7 +86,6 @@
                 android:layout_below="@+id/authorContainer"
                 android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginRight="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
                 android:gravity="center_vertical">
 
                 <LinearLayout
@@ -124,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/countersContainer"
-                android:layout_marginBottom="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:autoLink="all"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingLeft="@dimen/_16sdp"
@@ -138,11 +136,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/descriptionEditText"
                 android:layout_marginBottom="@dimen/_8sdp"
+                android:fontFamily="@font/roboto_medium"
                 android:paddingLeft="@dimen/_16sdp"
                 android:paddingRight="@dimen/_16sdp"
-                android:text="Comments"
-                android:textColor="@color/primary_dark_text"
-                android:visibility="gone" />
+                android:text="Bình luận"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_13ssp" />
 
             <RelativeLayout
                 android:id="@+id/commentsParentContainer"
@@ -197,6 +196,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_regular"
             android:hint="@string/comment_text_hint"
             android:inputType="textMultiLine"
             android:maxHeight="@dimen/_100sdp"
