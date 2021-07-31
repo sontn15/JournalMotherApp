@@ -12,12 +12,12 @@
         android:focusableInTouchMode="true">
 
         <TextView
-            android:layout_width="match_parent"
-            android:text="Chia sẻ khoảnh khắc"
-            android:paddingLeft="30dp"
             android:id="@+id/tv_img_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_height="wrap_content"/>
+            android:paddingLeft="30dp"
+            android:text="Chia sẻ khoảnh khắc" />
 
         <RelativeLayout
             android:id="@+id/imageContainer_memory"
@@ -45,7 +45,6 @@
         </RelativeLayout>
 
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_feeling"
             android:layout_width="200dp"
@@ -63,11 +62,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
-            android:layout_width="200dp"
             android:id="@+id/spn_feeling"
-            android:layout_toRightOf="@+id/input_layout_feeling"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/imageContainer_memory"
-            android:layout_height="wrap_content"/>
+            android:layout_toRightOf="@+id/input_layout_feeling" />
 
 
         <com.google.android.material.textfield.TextInputLayout

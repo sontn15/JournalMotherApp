@@ -30,6 +30,7 @@ public class Const {
         public static final String NEWS = "NEWS";
         public static final String POSTS = "POSTS";
         public static final String SETTINGS = "SETTINGS";
+        public static final String MEMORIES = "MEMORIES";
 
         public static final String NEWS_FOOD = "NEWS_FOOD";
         public static final String NEWS_MOM = "NEWS_MOM";
