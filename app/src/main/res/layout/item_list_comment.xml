@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/_16sdp"
     android:paddingBottom="@dimen/_16sdp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avatarImageView"
+        android:id="@+id/avatarImageViewComment"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_stub" />
 
     <com.ms.square.android.expandabletextview.ExpandableTextView
-        android:id="@+id/commentTextView"
+        android:id="@+id/commentTextViewComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/avatarImageView"
+        android:layout_toEndOf="@+id/avatarImageViewComment"
         android:paddingStart="@dimen/_16sdp"
         expandableTextView:animDuration="200"
-        expandableTextView:maxCollapsedLines="3">
+        expandableTextView:maxCollapsedLines="3"
+        tools:ignore="RtlSymmetry">
 
         <TextView
-            android:id="@+id/expandable_text"
+            android:id="@+id/expandable_textComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"
             android:ellipsize="end"
-            android:textAppearance="@dimen/_14ssp" />
-
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="@dimen/_13ssp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -38,18 +40,22 @@
             android:paddingTop="@dimen/_4sdp">
 
             <TextView
-                android:id="@+id/dateTextView"
+                android:id="@+id/dateTextViewComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:text="day ago" />
+                android:fontFamily="@font/roboto_regular"
+                android:text="day ago"
+                android:textSize="@dimen/_11ssp" />
 
             <TextView
-                android:id="@+id/expand_collapse"
+                android:id="@+id/expand_collapseComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:autoLink="web" />
+                android:autoLink="web"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="@dimen/_13ssp" />
 
         </RelativeLayout>
     </com.ms.square.android.expandabletextview.ExpandableTextView>

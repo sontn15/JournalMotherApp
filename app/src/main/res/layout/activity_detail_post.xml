@@ -35,7 +35,6 @@
                     android:transitionName="@string/post_image_transition_name"
                     android:visibility="visible"
                     tools:targetApi="lollipop" />
-
             </RelativeLayout>
 
             <TextView
@@ -47,8 +46,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_toStartOf="@+id/authorImageView"
+                android:fontFamily="@font/roboto_medium"
                 android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp" />
+                android:paddingRight="@dimen/_16sdp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15ssp" />
 
             <LinearLayout
                 android:id="@+id/authorContainer"
@@ -71,7 +73,10 @@
                 <TextView
                     android:id="@+id/authorTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
             </LinearLayout>
 
 
@@ -99,14 +104,17 @@
                         android:id="@+id/dateImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_time" />
+                        app:srcCompat="@drawable/ic_time"
+                        tools:ignore="VectorDrawableCompat" />
 
                     <TextView
                         android:id="@+id/dateTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
                         android:paddingStart="@dimen/_8sdp"
-                        android:textAppearance="@dimen/_14ssp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -118,9 +126,11 @@
                 android:layout_below="@+id/countersContainer"
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:autoLink="all"
+                android:fontFamily="@font/roboto_regular"
                 android:paddingLeft="@dimen/_16sdp"
                 android:paddingRight="@dimen/_16sdp"
-                android:textAppearance="@dimen/_14ssp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13ssp" />
 
             <TextView
                 android:id="@+id/commentsLabel"
@@ -147,25 +157,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
                     app:layoutManager="LinearLayoutManager"
                     tools:listitem="@layout/item_list_comment" />
-
-                <TextView
-                    android:id="@+id/warningCommentsTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/_8sdp"
-                    android:text="@string/internet_connection_failed"
-                    android:visibility="gone" />
 
             </RelativeLayout>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/authorImageView"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
                 android:layout_alignTop="@+id/imageContainer"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/_210sdp"

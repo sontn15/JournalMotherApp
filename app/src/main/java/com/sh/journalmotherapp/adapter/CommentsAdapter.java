@@ -2,12 +2,16 @@ package com.sh.journalmotherapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
@@ -43,7 +47,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_list_comment, parent, false);
-        return new CommentViewHolder(view);
+        return new CommentsAdapter.CommentViewHolder(view);
     }
 
     @SneakyThrows
@@ -53,14 +57,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         long timestamp = Objects.requireNonNull(dateFormat.parse(model.getCreatedDate())).getTime();
         CharSequence date = FormatterUtil.getRelativeTimeSpanString(mContext, timestamp);
-
         holder.dateTextView.setText(date);
+
+        Spannable contentString = new SpannableStringBuilder(model.getUserComment().getFullName() + "   " + model.getContent());
+        contentString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.highlight_text)),
+                0, model.getUserComment().getFullName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.commentTextView.setText(model.getContent());
 
         Picasso.get().load(model.getUserComment().getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.avatarImageView);
-
-        holder.dateTextView.setText(model.getCreatedDate());
 
         holder.bind(model, listener);
     }
@@ -79,23 +84,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         protected CircleImageView avatarImageView;
         protected ExpandableTextView commentTextView;
 
-
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            commentTextView = itemView.findViewById(R.id.commentTextView);
-            avatarImageView = itemView.findViewById(R.id.avatarImageView);
-            dateTextView = itemView.findViewById(R.id.dateTextView);
+            commentTextView = itemView.findViewById(R.id.commentTextViewComment);
+            avatarImageView = itemView.findViewById(R.id.avatarImageViewComment);
+            dateTextView = itemView.findViewById(R.id.dateTextViewComment);
         }
 
         public void bind(final CommentModel model, final OnCommentItemClickListener listener) {
-            itemView.setOnClickListener(v -> listener.onClickItem(model));
             avatarImageView.setOnClickListener(v -> listener.onClickAuthor(model));
         }
     }
 
     public interface OnCommentItemClickListener {
-        void onClickItem(CommentModel model);
-
         void onClickAuthor(CommentModel model);
     }
 

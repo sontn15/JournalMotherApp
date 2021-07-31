@@ -26,6 +26,7 @@
                 android:layout_height="@dimen/_200sdp"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/ic_stub"
                 tools:ignore="ContentDescription" />
 
             <de.hdodenhof.circleimageview.CircleImageView

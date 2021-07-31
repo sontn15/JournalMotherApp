@@ -11,12 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +26,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,22 +47,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DetailPostActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private EditText commentEditText;
 
     private ScrollView scrollView;
-    private ViewGroup likesContainer;
-    private ImageView likesImageView;
     private TextView commentsLabel;
     private TextView authorTextView;
     private TextView dateTextView;
-    private ImageView authorImageView;
-    private ProgressBar progressBar;
+    private CircleImageView authorImageView;
     private ImageView postImageView;
     private TextView titleTextView;
-    private TextView descriptionEditText;
-    private ProgressBar commentsProgressBar;
+    private TextView descriptionText;
     private RecyclerView commentsRecyclerView;
     private TextView warningCommentsTextView;
 
@@ -96,7 +92,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_details);
+        setContentView(R.layout.activity_detail_post);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Chi tiết bài đăng");
         initView();
@@ -112,6 +108,10 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         titleTextView.setText(postModel.getTitle());
         dateTextView.setText(postModel.getCreatedDate());
         authorTextView.setText(postModel.getAuthor().getFullName());
+        descriptionText.setText(postModel.getContent());
+
+        Picasso.get().load(postModel.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
+                .error(R.drawable.ic_app_256).into(authorImageView);
 
         Picasso.get().load(postModel.getImageUrl()).placeholder(R.drawable.ic_app_512)
                 .error(R.drawable.ic_app_512).into(postImageView);
@@ -120,19 +120,15 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
 
     private void initView() {
         titleTextView = findViewById(R.id.titleTextView);
-        descriptionEditText = findViewById(R.id.descriptionEditText);
+        descriptionText = findViewById(R.id.descriptionEditText);
         postImageView = findViewById(R.id.postImageView);
-        progressBar = findViewById(R.id.progressBar);
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         scrollView = findViewById(R.id.scrollView);
         commentsLabel = findViewById(R.id.commentsLabel);
         commentEditText = findViewById(R.id.commentEditText);
-        likesContainer = findViewById(R.id.likesContainer);
-        likesImageView = findViewById(R.id.likesImageView);
         authorImageView = findViewById(R.id.authorImageView);
         authorTextView = findViewById(R.id.authorTextView);
         dateTextView = findViewById(R.id.dateTextView);
-        warningCommentsTextView = findViewById(R.id.warningCommentsTextView);
 
         sendButton = findViewById(R.id.sendButton);
 
@@ -145,10 +141,6 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     private void initRecyclerView() {
         commentModelList = new ArrayList<>();
         commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
-            @Override
-            public void onClickItem(CommentModel model) {
-
-            }
 
             @Override
             public void onClickAuthor(CommentModel model) {
@@ -156,10 +148,10 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        commentsRecyclerView.setAdapter(commentsAdapter);
         commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
                 ((LinearLayoutManager) Objects.requireNonNull(commentsRecyclerView.getLayoutManager())).getOrientation()));
+        commentsRecyclerView.setAdapter(commentsAdapter);
 
         getAllCommentOfPost(postModel);
     }
@@ -174,12 +166,12 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        CommentModel postModel = dataSnap.getValue(CommentModel.class);
-                        if (postModel != null) {
-                            commentModelList.add(postModel);
-                            commentsAdapter.notifyDataSetChanged();
+                        CommentModel commentModel = dataSnap.getValue(CommentModel.class);
+                        if (commentModel != null) {
+                            commentModelList.add(commentModel);
                         }
                     }
+                    commentsAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -242,10 +234,14 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
                 .child(Const.FirebaseRef.COMMENTS)
                 .child(postModel.getId())
                 .child(id)
-                .setValue(commentModel, (OnCompleteListener<CommentModel>) task -> {
-                    scrollToFirstComment();
-                });
-
+                .setValue(commentModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                getAllCommentOfPost(postModel);
+                scrollToFirstComment();
+                Toast.makeText(DetailPostActivity.this, "Đã bình luận", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         commentEditText.setText(null);
         commentEditText.clearFocus();

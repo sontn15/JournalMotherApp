@@ -23,12 +23,14 @@ public class PostModel implements Serializable, Parcelable {
     private String imageUrl;
     private UserModel author;
 
+
     protected PostModel(Parcel in) {
         id = in.readString();
         title = in.readString();
         content = in.readString();
         createdDate = in.readString();
         imageUrl = in.readString();
+        author = in.readParcelable(UserModel.class.getClassLoader());
     }
 
     public static final Creator<PostModel> CREATOR = new Creator<PostModel>() {
@@ -55,5 +57,6 @@ public class PostModel implements Serializable, Parcelable {
         dest.writeString(content);
         dest.writeString(createdDate);
         dest.writeString(imageUrl);
+        dest.writeParcelable(author, flags);
     }
 }
