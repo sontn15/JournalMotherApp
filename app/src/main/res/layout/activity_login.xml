@@ -41,7 +41,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="Chào mừng tới Mom Mom"
+                android:text="Welcom to MomMom"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15ssp" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginRight="@dimen/_8sdp"
                 android:background="@drawable/edt_custom"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="Tài khoản"
+                android:hint="Username"
                 android:inputType="text"
                 android:padding="@dimen/_8sdp"
                 android:textSize="@dimen/_14ssp">
@@ -70,7 +70,7 @@
                 android:layout_marginRight="@dimen/_8sdp"
                 android:background="@drawable/edt_custom"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="Mật khẩu"
+                android:hint="Password"
                 android:inputType="textPassword"
                 android:padding="@dimen/_8sdp"
                 android:textSize="@dimen/_14ssp" />
@@ -84,7 +84,7 @@
                 android:gravity="end"
                 android:paddingTop="@dimen/_3sdp"
                 android:paddingBottom="@dimen/_2sdp"
-                android:text="Đăng ký tài khoản?"
+                android:text="Register account?"
                 android:textColor="@color/colorPrimary" />
 
             <Button
@@ -98,7 +98,7 @@
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/edt_custom_xanhdatroi"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Đăng nhập"
+                android:text="Sign in"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
         </LinearLayout>

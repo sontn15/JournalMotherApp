@@ -44,8 +44,10 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
         holder.tvContent.setText(model.getContent());
         holder.tvFeeling.setText(model.getEmotion());
         holder.dateTextView.setText(model.getCreatedDate());
-        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_app_512)
-                .error(R.drawable.ic_app_512).into(holder.imv_memory);
+
+        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_stub)
+                .error(R.drawable.ic_stub).into(holder.imv_memory);
+
         holder.bind(model, listener);
     }
 

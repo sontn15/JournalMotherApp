@@ -16,7 +16,7 @@ public class SettingFragment extends Fragment {
     private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_setting, container, false);
+        root = inflater.inflate(R.layout.activity_update_profile_user, container, false);
         initView();
         initAdapter();
         return root;

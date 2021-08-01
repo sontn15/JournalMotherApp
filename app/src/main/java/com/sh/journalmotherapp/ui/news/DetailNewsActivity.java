@@ -30,7 +30,7 @@ public class DetailNewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_news);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Chi tiết bài viết");
+        getSupportActionBar().setTitle("News detail");
 
         initViews();
         initData();
@@ -52,7 +52,7 @@ public class DetailNewsActivity extends AppCompatActivity {
             Picasso.get().load(newsModel.getImageUrl()).placeholder(R.drawable.ic_app_512)
                     .error(R.drawable.ic_app_512).into(imvImage);
         } else {
-            Toast.makeText(DetailNewsActivity.this, "Có lỗi xảy ra, thử lại sau", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailNewsActivity.this, getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
         }
     }
 

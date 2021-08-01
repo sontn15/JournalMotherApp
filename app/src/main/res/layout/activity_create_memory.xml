@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:fontFamily="@font/roboto_medium"
             android:paddingBottom="@dimen/_8sdp"
-            android:text="Chia sẻ khoảnh khắc"
+            android:text="Share the moment"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_14ssp" />
 
@@ -81,7 +81,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edt_custom_xam"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Hủy"
+                android:text="Cancel"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edt_custom_xanhdatroi"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Lưu"
+                android:text="Save"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 

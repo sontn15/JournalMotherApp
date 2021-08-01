@@ -34,7 +34,7 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_user);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Thông tin tài khoản");
+        getSupportActionBar().setTitle("Account Information");
 
         initView();
         initData();
@@ -66,10 +66,8 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         tvBirthDayUser = this.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = this.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = this.findViewById(R.id.tvFullNameUser);
-        tvUpdateProfile = this.findViewById(R.id.tvUpdateProfile);
         tvLogOut = this.findViewById(R.id.tvLogOut);
 
-        tvUpdateProfile.setOnClickListener(this);
         tvLogOut.setOnClickListener(this);
     }
 
@@ -85,20 +83,11 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvUpdateProfile: {
-                onClickUpdateProfile();
-                break;
-            }
             case R.id.tvLogOut: {
                 onClickLogOut();
                 break;
             }
         }
-    }
-
-    private void onClickUpdateProfile() {
-        Intent intent = new Intent(DetailUserActivity.this, UpdateProfileUserActivity.class);
-        startActivity(intent);
     }
 
     private void onClickLogOut() {

@@ -25,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.UserModel;
 import com.sh.journalmotherapp.util.CommonUtil;
 import com.sh.journalmotherapp.util.Const;
@@ -118,7 +117,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String birthDay = edtBirthDay.getText().toString();
 
         if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.vui_long_nhap_day_du_thong_tin), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -158,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                         databaseReference.child(Const.FirebaseRef.USERS).child(id).setValue(userRegister);
 
                                         hiddenProgressDialog();
-                                        Toast.makeText(getApplicationContext(), "Đăng ký tài khoản thành công", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thanh_cong), Toast.LENGTH_SHORT).show();
 
                                         Intent mIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                                         startActivity(mIntent);
@@ -167,11 +166,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 })
                                 .addOnFailureListener(exception -> {
                                     hiddenProgressDialog();
-                                    Toast.makeText(getApplicationContext(), "Đăng ký tài khoản không thành công", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thai_bai), Toast.LENGTH_SHORT).show();
                                 })
 
                                 // On progress change upload time.
-                                .addOnProgressListener(taskSnapshot -> progressDialog.setTitle("Vui lòng đợi..."));
+                                .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.vui_long_doi) + "..."));
                     }
                     hiddenProgressDialog();
                 }

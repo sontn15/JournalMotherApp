@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edt_custom_xam"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Hủy bỏ"
+                android:text="Cancel"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp" />
 
@@ -87,7 +87,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edt_custom_xanhdatroi"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Đăng bài"
+                android:text="Post"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 

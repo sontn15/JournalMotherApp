@@ -1,5 +1,6 @@
 package com.sh.journalmotherapp.ui.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +13,20 @@ import androidx.fragment.app.Fragment;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.ui.authentication.LoginActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AccountFragment extends Fragment {
+public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private View root;
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
+    private TextView tvLogOut;
 
     private MySharedPreferences preferences;
     private UserModel userLogin;
@@ -61,5 +64,27 @@ public class AccountFragment extends Fragment {
         tvBirthDayUser = root.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = root.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = root.findViewById(R.id.tvFullNameUser);
+        tvLogOut = root.findViewById(R.id.tvLogOut);
+
+        tvLogOut.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvLogOut: {
+                onClickLogOut();
+                break;
+            }
+        }
+    }
+
+
+    private void onClickLogOut() {
+        preferences.clearAllData();
+
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
+        requireActivity().finish();
     }
 }

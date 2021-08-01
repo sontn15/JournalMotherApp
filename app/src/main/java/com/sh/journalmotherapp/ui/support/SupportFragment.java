@@ -92,9 +92,9 @@ public class SupportFragment extends Fragment implements View.OnClickListener {
                         PostModel postModel = dataSnap.getValue(PostModel.class);
                         if (postModel != null) {
                             postModelList.add(postModel);
+                            postAdapter.notifyDataSetChanged();
                         }
                     }
-                    postAdapter.notifyDataSetChanged();
                 }
 
                 @Override

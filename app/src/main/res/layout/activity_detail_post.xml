@@ -47,8 +47,8 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_toStartOf="@+id/authorImageView"
                 android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15ssp" />
 
@@ -59,8 +59,8 @@
                 android:layout_below="@+id/titleTextView"
                 android:layout_alignParentStart="true"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp">
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp">
 
                 <TextView
                     android:id="@+id/authorLabelTextView"
@@ -84,8 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/authorContainer"
-                android:layout_marginLeft="@dimen/_16sdp"
-                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:gravity="center_vertical">
 
                 <LinearLayout
@@ -125,8 +125,8 @@
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:autoLink="all"
                 android:fontFamily="@font/roboto_regular"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13ssp" />
 
@@ -137,9 +137,9 @@
                 android:layout_below="@+id/descriptionEditText"
                 android:layout_marginBottom="@dimen/_8sdp"
                 android:fontFamily="@font/roboto_medium"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:text="Bình luận"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:text="Comments"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_13ssp" />
 
@@ -148,8 +148,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/commentsLabel"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp">
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/commentsRecyclerView"
@@ -212,8 +212,8 @@
             android:background="@drawable/edt_custom_xanhdatroi"
             android:enabled="false"
             android:minWidth="0dp"
-            android:paddingLeft="@dimen/_16sdp"
-            android:paddingRight="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_8sdp"
             android:text="@string/send_comment_button_label"
             android:textColor="@android:color/white" />
     </LinearLayout>

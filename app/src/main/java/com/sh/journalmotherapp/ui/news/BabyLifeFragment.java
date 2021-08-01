@@ -79,9 +79,9 @@ public class BabyLifeFragment extends Fragment {
                         NewsModel postModel = dataSnap.getValue(NewsModel.class);
                         if (postModel != null) {
                             listModel.add(postModel);
+                            adapter.notifyDataSetChanged();
                         }
                     }
-                    adapter.notifyDataSetChanged();
                 }
 
                 @Override

@@ -77,7 +77,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_post);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Chi tiết bài đăng");
+        getSupportActionBar().setTitle("Post detail");
         initView();
         initData();
         initRecyclerView();
@@ -201,7 +201,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         String commentText = commentEditText.getText().toString();
 
         if (commentText.isEmpty()) {
-            Toast.makeText(DetailPostActivity.this, "Vui lòng để lại bình luận", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.please_comment), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -224,7 +224,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
             public void onSuccess(Void unused) {
                 getAllCommentOfPost(postModel);
                 scrollToFirstComment();
-                Toast.makeText(DetailPostActivity.this, "Đã bình luận", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.commented), Toast.LENGTH_SHORT).show();
             }
         });
 

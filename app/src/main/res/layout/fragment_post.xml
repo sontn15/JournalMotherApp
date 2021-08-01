@@ -34,7 +34,7 @@
                 android:background="@drawable/edt_custom_trang_post"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/_15sdp"
-                android:text="Bạn đang nghĩ gì..."
+                android:text="What are you thinking..."
                 android:textSize="@dimen/_14ssp" />
 
         </LinearLayout>

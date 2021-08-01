@@ -98,9 +98,9 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
                         MemoryModel model = dataSnap.getValue(MemoryModel.class);
                         if (model != null) {
                             memoryModels.add(model);
+                            memoryAdapter.notifyDataSetChanged();
                         }
                     }
-                    memoryAdapter.notifyDataSetChanged();
                 }
 
                 @Override

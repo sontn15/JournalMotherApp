@@ -56,7 +56,8 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Đăng bài");
+        getSupportActionBar().setTitle("Create a post");
+
         initData();
         initView();
         clearData();
@@ -119,7 +120,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
     private void onCreatePost() {
         if (FilePathUri != null) {
-            progressDialog.setTitle("Đang đăng bài...");
+            progressDialog.setTitle(getResources().getString(R.string.dang_dang_bai) + "...");
             progressDialog.show();
 
             String imageName = userLogin.getUsername() + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri);
@@ -148,20 +149,20 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                                     .setValue(model);
 
                             progressDialog.dismiss();
-                            Toast.makeText(CreatePostActivity.this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
 
                             onBackPressed();
                         });
                     })
                     .addOnFailureListener(exception -> {
                         progressDialog.dismiss();
-                        Toast.makeText(CreatePostActivity.this, "Đăng bài không thành công", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                     })
 
                     // On progress change upload time.
-                    .addOnProgressListener(taskSnapshot -> progressDialog.setTitle("Đang đăng bài..."));
+                    .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.dang_dang_bai) + "..."));
         } else {
-            Toast.makeText(CreatePostActivity.this, "Vui lòng chọn ảnh trước khi đăng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreatePostActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
         }
     }
 

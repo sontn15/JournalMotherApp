@@ -24,7 +24,7 @@ public class UpdateProfileUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_profile_user);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Cập nhật tài khoản");
+        getSupportActionBar().setTitle("Update Profile");
 
         initView();
         initData();

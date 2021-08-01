@@ -8,8 +8,8 @@
         android:layout_height="match_parent"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
-        android:text="Tính năng đang được cập nhật"
+        android:text="Feature is being updated"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_13ssp" />
+        android:textSize="@dimen/_15ssp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
