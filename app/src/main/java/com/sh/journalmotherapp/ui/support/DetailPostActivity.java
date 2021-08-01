@@ -1,14 +1,9 @@
 package com.sh.journalmotherapp.ui.support;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -62,25 +57,13 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     private TextView titleTextView;
     private TextView descriptionText;
     private RecyclerView commentsRecyclerView;
-    private TextView warningCommentsTextView;
 
-    private boolean attemptToLoadComments = false;
-
-    private MenuItem complainActionMenuItem;
     private MenuItem editActionMenuItem;
     private MenuItem deleteActionMenuItem;
-
-    private boolean postRemovingProcess = false;
-    private boolean isPostExist;
-    private boolean authorAnimationInProgress = false;
-
-    private boolean isAuthorAnimationRequired;
-    private ActionMode mActionMode;
 
     private CommentsAdapter commentsAdapter;
     private List<CommentModel> commentModelList;
 
-    private boolean isEnterTransitionFinished = false;
 
     private Button sendButton;
 
@@ -292,117 +275,4 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     public void afterTextChanged(Editable s) {
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.post_details_menu, menu);
-
-        editActionMenuItem = menu.findItem(R.id.edit_post_action);
-        deleteActionMenuItem = menu.findItem(R.id.delete_post_action);
-
-        if (postModel != null) {
-            updateOptionMenuVisibility();
-        }
-        return true;
-    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (!isPostExist) {
-//            return super.onOptionsItemSelected(item);
-//        }
-//
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.edit_post_action:
-//                if (hasAccessToModifyPost()) {
-//                    openEditPostActivity();
-//                }
-//                return true;
-//
-//            case R.id.delete_post_action:
-//                if (hasAccessToModifyPost()) {
-//                    attemptToRemovePost();
-//                }
-//                return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    private void attemptToRemovePost() {
-//        if (hasInternetConnection()) {
-//            if (!postRemovingProcess) {
-//                openConfirmDeletingDialog();
-//            }
-//        } else {
-//            showSnackBar(R.string.internet_connection_failed);
-//        }
-    }
-
-    private void openConfirmDeletingDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.confirm_deletion_post)
-                .setNegativeButton(R.string.button_title_cancel, null)
-                .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        removePost();
-                    }
-                });
-
-        builder.create().show();
-    }
-
-    private void removePost() {
-//        postManager.removePost(post, new OnTaskCompleteListener() {
-//            @Override
-//            public void onTaskComplete(boolean success) {
-//                if (success) {
-//                    Intent intent = getIntent();
-//                    setResult(RESULT_OK, intent.putExtra(POST_STATUS_EXTRA_KEY, PostStatus.REMOVED));
-//                    finish();
-//                } else {
-//                    postRemovingProcess = false;
-//                    showSnackBar(R.string.error_fail_remove_post);
-//                }
-//
-//                hideProgress();
-//            }
-//        });
-//
-//        showProgress(R.string.removing);
-//        postRemovingProcess = true;
-    }
-
-    private boolean hasAccessToModifyPost() {
-//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//        return currentUser != null && post != null && post.getAuthorId().equals(currentUser.getUid());
-
-
-        return true;
-    }
-
-    private void updateOptionMenuVisibility() {
-        if (editActionMenuItem != null && deleteActionMenuItem != null && hasAccessToModifyPost()) {
-            editActionMenuItem.setVisible(true);
-            deleteActionMenuItem.setVisible(true);
-        }
-
-//        if (complainActionMenuItem != null && postModel != null && !post.isHasComplain()) {
-//            complainActionMenuItem.setVisible(true);
-//        }
-    }
-
-    private void openEditPostActivity() {
-//        if (hasInternetConnection()) {
-//            Intent intent = new Intent(PostDetailActivity.this, EditPostActivity.class);
-//            intent.putExtra(EditPostActivity.POST_EXTRA_KEY, post);
-//            startActivityForResult(intent, EditPostActivity.EDIT_POST_REQUEST);
-//        } else {
-//            showSnackBar(R.string.internet_connection_failed);
-//        }
-    }
-
 }

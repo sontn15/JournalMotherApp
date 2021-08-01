@@ -1,7 +1,7 @@
 package com.sh.journalmotherapp.ui.authentication;
 
-import static com.sh.journalmotherapp.util.Const.TOPIC_APP;
-
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,11 +24,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.service.NotificationReceiver;
 import com.sh.journalmotherapp.ui.main.MainActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Calendar;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -54,6 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         UserModel userModel = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
         if (userModel != null) {
+            createAlarmNotification();
+
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -113,6 +118,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 isCheck = true;
                                 preferences.putUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN, user);
 
+                                createAlarmNotification();
+
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             }
@@ -134,6 +141,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(LoginActivity.this, getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
             hiddenProgressDialog();
         }
+    }
+
+    private void createAlarmNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(LoginActivity.this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(LoginActivity.this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     private void showProgressDialog() {
