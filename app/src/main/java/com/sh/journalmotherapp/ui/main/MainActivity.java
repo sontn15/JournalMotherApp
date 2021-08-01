@@ -1,7 +1,5 @@
 package com.sh.journalmotherapp.ui.main;
 
-import static com.sh.journalmotherapp.util.Const.TOPIC_APP;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,10 +15,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.database.ResourceData;
 import com.sh.journalmotherapp.model.UserModel;
 import com.sh.journalmotherapp.util.Const;
 
@@ -58,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC_APP);
+//        NotificationHelper.scheduleRepeatingRTCNotification(this, "2", "19");
+//        NotificationHelper.enableBootReceiver(this);
     }
 
     @Override

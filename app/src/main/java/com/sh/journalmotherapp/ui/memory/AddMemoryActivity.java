@@ -160,7 +160,7 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
                     // On progress change upload time.
                     .addOnProgressListener(taskSnapshot -> progressDialog.setTitle("Đang đăng bài..."));
         } else {
-            Toast.makeText(AddMemoryActivity.this, "Vui lòng chọn ảnh trước khi đăng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddMemoryActivity.this, "Vui lòng chọn ảnh trước", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -207,6 +207,7 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void clearData() {
+        FilePathUri = null;
         edt_felling.setText("");
         edt_content.setText("");
         imv_memory.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));

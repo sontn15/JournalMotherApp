@@ -1,7 +1,9 @@
 package com.sh.journalmotherapp.ui.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +20,14 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class DetailUserActivity extends AppCompatActivity {
+public class DetailUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
+    private TextView tvUpdateProfile, tvLogOut;
+
+    private MySharedPreferences preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +41,7 @@ public class DetailUserActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        MySharedPreferences preferences = new MySharedPreferences(this);
+        preferences = new MySharedPreferences(this);
         UserModel userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         tvNameUser.setText(userLogin.getFullName());
@@ -61,6 +66,11 @@ public class DetailUserActivity extends AppCompatActivity {
         tvBirthDayUser = this.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = this.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = this.findViewById(R.id.tvFullNameUser);
+        tvUpdateProfile = this.findViewById(R.id.tvUpdateProfile);
+        tvLogOut = this.findViewById(R.id.tvLogOut);
+
+        tvUpdateProfile.setOnClickListener(this);
+        tvLogOut.setOnClickListener(this);
     }
 
     @Override
@@ -72,4 +82,30 @@ public class DetailUserActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvUpdateProfile: {
+                onClickUpdateProfile();
+                break;
+            }
+            case R.id.tvLogOut: {
+                onClickLogOut();
+                break;
+            }
+        }
+    }
+
+    private void onClickUpdateProfile() {
+        Intent intent = new Intent(DetailUserActivity.this, UpdateProfileUserActivity.class);
+        startActivity(intent);
+    }
+
+    private void onClickLogOut() {
+        preferences.clearAllData();
+
+        Intent intent = new Intent(DetailUserActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

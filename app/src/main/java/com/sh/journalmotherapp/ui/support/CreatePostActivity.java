@@ -194,6 +194,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void clearData() {
+        FilePathUri = null;
         titleEditText.setText("");
         descriptionEditText.setText("");
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));
