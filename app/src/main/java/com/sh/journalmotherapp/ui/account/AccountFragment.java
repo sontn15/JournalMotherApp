@@ -25,6 +25,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
+    private TextView tvMarital, tvPregnant, tvHobbies;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
     private TextView tvLogOut;
 
@@ -44,6 +45,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         tvNameUser.setText(userLogin.getFullName());
         tvBirthDayUser.setText(userLogin.getBirthDay());
+
+
+        tvMarital.setText(userLogin.getMaritalStatus());
+        tvPregnant.setText(userLogin.getPregnantStatus());
+        tvHobbies.setText(userLogin.getHobbies());
 
         tvPhoneUser.setText(userLogin.getMobile());
         tvBirthDay.setText(userLogin.getBirthDay());
@@ -65,6 +71,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         tvUsernameUser = root.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = root.findViewById(R.id.tvFullNameUser);
         tvLogOut = root.findViewById(R.id.tvLogOut);
+        tvMarital = root.findViewById(R.id.tvMaritalStatus);
+        tvPregnant = root.findViewById(R.id.tvPregnantStatus);
+        tvHobbies = root.findViewById(R.id.tvHobbies);
 
         tvLogOut.setOnClickListener(this);
     }

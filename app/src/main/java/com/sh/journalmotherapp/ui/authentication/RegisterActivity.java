@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegister;
     private CircleImageView imvImage;
     private ProgressDialog progressDialog;
-    private EditText edtName, edtAddress, edtPhone, edtUsername, edtPassword, edtBirthDay;
+    private EditText edtName, edtAddress, edtPhone, edtUsername, edtPassword, edtBirthDay, edtMaritalStatus, edtPregnantStatus, edtHobbies;
 
     // Creating URI.
     private Uri FilePathUri;
@@ -80,6 +80,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edtBirthDay = this.findViewById(R.id.edtBirthdayRegister);
         btnRegister = this.findViewById(R.id.btnRegister);
         imvImage = this.findViewById(R.id.imvImage);
+        edtMaritalStatus = this.findViewById(R.id.edtMaritalStatusRegister);
+        edtPregnantStatus = this.findViewById(R.id.edtPregnantStatusRegister);
+        edtHobbies = this.findViewById(R.id.edtHobbiesRegister);
 
         imvImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -93,6 +96,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edtUsername.setText("");
         edtPassword.setText("");
         edtBirthDay.setText("");
+        edtMaritalStatus.setText("");
+        edtPregnantStatus.setText("");
+        edtHobbies.setText("");
         imvImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_stub));
     }
 
@@ -115,8 +121,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
         String birthDay = edtBirthDay.getText().toString();
+        String hobbies = edtHobbies.getText().toString();
+        String maritalStatus = edtMaritalStatus.getText().toString();
+        String pregnantStatus = edtPregnantStatus.getText().toString();
 
-        if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty() || hobbies.isEmpty() || maritalStatus.isEmpty() || pregnantStatus.isEmpty() || FilePathUri == null) {
             Toast.makeText(this, getResources().getString(R.string.vui_long_nhap_day_du_thong_tin), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -152,6 +161,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                                 .mobile(phoneNumber.trim())
                                                 .birthDay(birthDay.trim())
                                                 .username(username.trim().toLowerCase())
+                                                .hobbies(hobbies)
+                                                .maritalStatus(maritalStatus)
+                                                .pregnantStatus(pregnantStatus)
                                                 .build();
 
                                         databaseReference.child(Const.FirebaseRef.USERS).child(id).setValue(userRegister);

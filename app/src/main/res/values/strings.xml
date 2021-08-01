@@ -9,7 +9,7 @@
 
     <string name="menu_news">News</string>
     <string name="menu_support">Ask for help</string>
-    <string name="menu_memory">Memory</string>
+    <string name="menu_memory">Journal</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_account">Account</string>
 
@@ -20,7 +20,7 @@
     <string name="taikhoan_matkhau_khong_dung">Incorrect account or password</string>
     <string name="dang_nhap_thai_bai">Login failed</string>
     <string name="create_post_failed">Create post failed</string>
-    <string name="create_memory_failed">Create memory failed</string>
+    <string name="create_memory_failed">Create journal failed</string>
     <string name="dang_ky_thai_bai">Registration failed</string>
     <string name="dang_ky_thanh_cong">Registration successfully</string>
     <string name="username_ton_tai">This account has already existed</string>
@@ -28,7 +28,7 @@
     <string name="co_loi_xay_ra">Something went wrong, contact admin</string>
     <string name="label_create_post_activity">Create post</string>
     <string name="create_post_success">Create post successfully</string>
-    <string name="create_memory_success">Create memory successfully</string>
+    <string name="create_memory_success">Create journal successfully</string>
     <string name="label_post_detail_activity">Post detail</string>
     <string name="label_image_detail_activity">Image</string>
     <string name="title_activity_login">Sign in</string>
@@ -157,7 +157,7 @@
 
     <!--Firebase errors-->
     <string name="permission_denied_error">Please check your rules to access the Firebase Realtime Database</string>
-    <string name="hint_felling">Felling</string>
+    <string name="hint_felling">Feeling</string>
     <string name="hint_memory">What are you thinking?</string>
     <string name="default_notification_channel_id">JournalMother</string>
     <string name="fcm_message">Journal Mother Message</string>

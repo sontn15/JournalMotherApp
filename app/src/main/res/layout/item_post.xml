@@ -31,12 +31,11 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/authorImageView"
-                android:layout_width="@dimen/_80sdp"
-                android:layout_height="@dimen/_80sdp"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_alignTop="@+id/postImageView"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/_160sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_170sdp"
                 android:scaleX="0.5"
                 android:scaleY="0.5" />
 
@@ -100,7 +99,8 @@
                             android:id="@+id/dateImageView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            card_view:srcCompat="@drawable/ic_time" />
+                            card_view:srcCompat="@drawable/ic_time"
+                            tools:ignore="VectorDrawableCompat" />
 
                         <TextView
                             android:id="@+id/dateTextView"
@@ -108,6 +108,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
                             android:paddingStart="@dimen/_8sdp"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/_11ssp" />
 
                     </LinearLayout>

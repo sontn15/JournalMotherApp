@@ -24,9 +24,11 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
+    private TextView tvMarital, tvPregnant, tvHobbies;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
-    private TextView tvUpdateProfile, tvLogOut;
+    private TextView tvLogOut;
 
+    private UserModel userLogin;
     private MySharedPreferences preferences;
 
     @Override
@@ -42,10 +44,14 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
 
     private void initData() {
         preferences = new MySharedPreferences(this);
-        UserModel userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
+        userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         tvNameUser.setText(userLogin.getFullName());
         tvBirthDayUser.setText(userLogin.getBirthDay());
+
+        tvMarital.setText(userLogin.getMaritalStatus());
+        tvPregnant.setText(userLogin.getPregnantStatus());
+        tvHobbies.setText(userLogin.getHobbies());
 
         tvPhoneUser.setText(userLogin.getMobile());
         tvBirthDay.setText(userLogin.getBirthDay());
@@ -66,6 +72,9 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         tvBirthDayUser = this.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = this.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = this.findViewById(R.id.tvFullNameUser);
+        tvMarital = this.findViewById(R.id.tvMaritalStatus);
+        tvPregnant = this.findViewById(R.id.tvPregnantStatus);
+        tvHobbies = this.findViewById(R.id.tvHobbies);
         tvLogOut = this.findViewById(R.id.tvLogOut);
 
         tvLogOut.setOnClickListener(this);

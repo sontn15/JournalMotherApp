@@ -100,7 +100,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="Sign in"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_14ssp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

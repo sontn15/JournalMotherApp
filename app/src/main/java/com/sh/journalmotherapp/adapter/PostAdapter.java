@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.model.PostModel;
+import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,7 +49,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_stub)
                 .error(R.drawable.ic_stub).into(holder.postImageView);
 
-        Picasso.get().load(model.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
+        String authorImageUrl = model.getAuthor().getImageUrl();
+
+        boolean isAnonymous = model.isAnonymous();
+        if (isAnonymous) {
+            authorImageUrl = Const.ANONYMOUS_IMAGE_URL;
+        }
+
+        Picasso.get().load(authorImageUrl).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.authorImageView);
 
         holder.dateTextView.setText(model.getCreatedDate());

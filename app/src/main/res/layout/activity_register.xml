@@ -134,6 +134,49 @@
                         android:padding="@dimen/_8sdp"
                         android:textSize="@dimen/_14ssp" />
 
+
+                    <EditText
+                        android:id="@+id/edtHobbiesRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Hobbies"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtMaritalStatusRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Marital status"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtPregnantStatusRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Pregnant status"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
                     <EditText
                         android:id="@+id/edtUsernameRegister"
                         android:layout_width="match_parent"
@@ -175,7 +218,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:text="Sign up"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_12ssp" />
+                        android:textSize="@dimen/_14ssp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

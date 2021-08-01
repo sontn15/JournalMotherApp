@@ -88,16 +88,26 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
         postModel = getIntent().getExtras().getParcelable(Const.POST_SELECTED);
 
-        titleTextView.setText(postModel.getTitle());
-        dateTextView.setText(postModel.getCreatedDate());
-        authorTextView.setText(postModel.getAuthor().getFullName());
-        descriptionText.setText(postModel.getContent());
+        String authorImageUrl = postModel.getAuthor().getImageUrl();
+        String authorName = postModel.getAuthor().getFullName();
 
-        Picasso.get().load(postModel.getAuthor().getImageUrl()).placeholder(R.drawable.ic_app_256)
+        boolean isAnonymous = postModel.isAnonymous();
+        if (isAnonymous) {
+            authorImageUrl = Const.ANONYMOUS_IMAGE_URL;
+            authorName = "Anonymous";
+        }
+
+        authorTextView.setText(authorName);
+
+        Picasso.get().load(authorImageUrl).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(authorImageView);
 
         Picasso.get().load(postModel.getImageUrl()).placeholder(R.drawable.ic_app_512)
                 .error(R.drawable.ic_app_512).into(postImageView);
+
+        titleTextView.setText(postModel.getTitle());
+        dateTextView.setText(postModel.getCreatedDate());
+        descriptionText.setText(postModel.getContent());
     }
 
 

@@ -13,6 +13,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,8 +37,9 @@ import java.util.Objects;
 public class CreatePostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView imageView;
-    private EditText titleEditText, descriptionEditText;
     private Button btnCancel, btnPost;
+    private RadioButton radioPublic, radioAnonymous;
+    private EditText titleEditText, descriptionEditText;
 
     MySharedPreferences preferences;
     UserModel userLogin;
@@ -81,6 +83,9 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
         btnPost = this.findViewById(R.id.btnPost);
         btnCancel = this.findViewById(R.id.btnCancel);
+
+        radioPublic = this.findViewById(R.id.radioPublic);
+        radioAnonymous = this.findViewById(R.id.radioAnonymous);
 
         progressDialog = new ProgressDialog(CreatePostActivity.this);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -136,12 +141,18 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                             String createdDate = CommonUtil.getCurrentDateStr();
                             String content = descriptionEditText.getText().toString();
 
+                            boolean isAnonymous = false;
+                            if (radioAnonymous.isChecked()) {
+                                isAnonymous = true;
+                            }
+
                             PostModel model = new PostModel();
                             model.setId(id);
                             model.setTitle(title);
                             model.setContent(content);
                             model.setAuthor(userLogin);
                             model.setImageUrl(imageUrl);
+                            model.setAnonymous(isAnonymous);
                             model.setCreatedDate(createdDate);
 
                             databaseReference.child(Const.FirebaseRef.POSTS)
@@ -197,6 +208,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     private void clearData() {
         FilePathUri = null;
         titleEditText.setText("");
+        radioPublic.setChecked(true);
         descriptionEditText.setText("");
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));
     }

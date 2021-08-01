@@ -44,7 +44,6 @@
                 android:layout_below="@+id/authorImageView"
                 android:layout_alignEnd="@+id/authorImageView"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="@dimen/_8sdp"
                 android:layout_toStartOf="@+id/authorImageView"
                 android:fontFamily="@font/roboto_medium"
                 android:paddingLeft="@dimen/_8sdp"

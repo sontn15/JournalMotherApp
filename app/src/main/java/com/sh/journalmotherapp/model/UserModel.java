@@ -25,6 +25,10 @@ public class UserModel implements Serializable, Parcelable {
     private String password;
     private String imageUrl;
     private long likesCount;
+    private String maritalStatus;
+    private String pregnantStatus;
+    private String hobbies;
+
 
     protected UserModel(Parcel in) {
         id = in.readString();
@@ -36,6 +40,9 @@ public class UserModel implements Serializable, Parcelable {
         password = in.readString();
         imageUrl = in.readString();
         likesCount = in.readLong();
+        maritalStatus = in.readString();
+        pregnantStatus = in.readString();
+        hobbies = in.readString();
     }
 
     public static final Creator<UserModel> CREATOR = new Creator<UserModel>() {
@@ -66,5 +73,8 @@ public class UserModel implements Serializable, Parcelable {
         dest.writeString(password);
         dest.writeString(imageUrl);
         dest.writeLong(likesCount);
+        dest.writeString(maritalStatus);
+        dest.writeString(pregnantStatus);
+        dest.writeString(hobbies);
     }
 }

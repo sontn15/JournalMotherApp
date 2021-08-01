@@ -21,6 +21,7 @@ public class PostModel implements Serializable, Parcelable {
     private String content;
     private String createdDate;
     private String imageUrl;
+    private boolean anonymous;
     private UserModel author;
 
 
@@ -30,6 +31,7 @@ public class PostModel implements Serializable, Parcelable {
         content = in.readString();
         createdDate = in.readString();
         imageUrl = in.readString();
+        anonymous = in.readByte() != 0;
         author = in.readParcelable(UserModel.class.getClassLoader());
     }
 
@@ -57,6 +59,7 @@ public class PostModel implements Serializable, Parcelable {
         dest.writeString(content);
         dest.writeString(createdDate);
         dest.writeString(imageUrl);
+        dest.writeByte((byte) (anonymous ? 1 : 0));
         dest.writeParcelable(author, flags);
     }
 }

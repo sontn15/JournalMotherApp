@@ -5,6 +5,7 @@ public class Const {
     public static final String POST_SELECTED = "POST_SELECTED";
     public static final String NEWS_SELECTED = "NEWS_SELECTED";
 
+    public static final String ANONYMOUS_IMAGE_URL = "https://firebasestorage.googleapis.com/v0/b/journalmotherapp.appspot.com/o/anonymous.png?alt=media&token=531a8188-79c2-4106-af70-a195173e86e9";
 
     public static class KEY_SHARE_PREFERENCE {
         public static final String USER_LOGIN = "UserLogin";

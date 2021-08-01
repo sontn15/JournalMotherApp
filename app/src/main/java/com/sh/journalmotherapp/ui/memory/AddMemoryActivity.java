@@ -58,7 +58,7 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_memory);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Post a memory");
+        getSupportActionBar().setTitle("Post a journal");
 
         initViews();
         initData();

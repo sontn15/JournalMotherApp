@@ -55,10 +55,36 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <RadioGroup
+            android:id="@+id/radioGroupPrivatePost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_description"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radioPublic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Public" />
+
+            <RadioButton
+                android:id="@+id/radioAnonymous"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Anonymous" />
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
-            android:layout_below="@+id/input_layout_description"
+            android:layout_below="@+id/radioGroupPrivatePost"
             android:layout_marginTop="@dimen/_18sdp"
             android:layout_marginBottom="@dimen/_18sdp"
             android:orientation="horizontal">

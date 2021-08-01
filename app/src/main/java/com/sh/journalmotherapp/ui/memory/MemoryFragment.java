@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.MemoryAdapter;
-import com.sh.journalmotherapp.adapter.PostAdapter;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.MemoryModel;
-import com.sh.journalmotherapp.model.PostModel;
 import com.sh.journalmotherapp.model.UserModel;
-import com.sh.journalmotherapp.ui.support.CreatePostActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
