@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.support;
+package com.sh.journalmotherapp.ui.post;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -10,48 +10,59 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.PostModel;
-import com.sh.journalmotherapp.model.UserModel;
-import com.sh.journalmotherapp.util.CommonUtil;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
+import com.sh.journalmotherapp.network.request.PostRequest;
 import com.sh.journalmotherapp.util.Const;
 
 import java.io.IOException;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CreatePostActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private Spinner spnType, spnMode;
     private ImageView imageView;
     private Button btnCancel, btnPost;
     private RadioButton radioPublic, radioAnonymous;
     private EditText titleEditText, descriptionEditText;
 
-    MySharedPreferences preferences;
-    UserModel userLogin;
+    private UserEntity userLogin;
+    private MySharedPreferences preferences;
 
-    Uri FilePathUri;
-    int Image_Request_Code = 8;
+    private Uri FilePathUri;
+    private int Image_Request_Code = 8;
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
-    StorageReference storageReference;
-    DatabaseReference databaseReference;
+    private ApiService apiService;
+    private StorageReference storageReference;
 
+    private String typeSpinner;
+    private String modeSpinner;
+    private final String arrTypeSpinner[] = {"#memories", "#ask_for_help"};
+    private final String arrModeSpinner[] = {"Public", "Private"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +70,6 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_create_post);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Create a post");
-
         initData();
         initView();
         clearData();
@@ -68,12 +78,8 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     private void initData() {
         preferences = new MySharedPreferences(this);
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
-
-        // Assign FirebaseStorage instance to storageReference.
+        apiService = RetrofitClient.getClient().create(ApiService.class);
         storageReference = FirebaseStorage.getInstance().getReference();
-
-        // Assign FirebaseDatabase instance with root database name.
-        databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     private void initView() {
@@ -87,12 +93,44 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         radioPublic = this.findViewById(R.id.radioPublic);
         radioAnonymous = this.findViewById(R.id.radioAnonymous);
 
+        spnType = this.findViewById(R.id.spnType);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrTypeSpinner);
+        spnType.setAdapter(typeAdapter);
+
+        spnMode = this.findViewById(R.id.spnMode);
+        ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrModeSpinner);
+        spnMode.setAdapter(modeAdapter);
+
         progressDialog = new ProgressDialog(CreatePostActivity.this);
         progressDialog.setCanceledOnTouchOutside(false);
 
         btnPost.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         imageView.setOnClickListener(this);
+
+        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                typeSpinner = arrTypeSpinner[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                modeSpinner = arrModeSpinner[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -136,9 +174,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                         storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
 
-                            String id = CommonUtil.generateUUID();
                             String title = titleEditText.getText().toString();
-                            String createdDate = CommonUtil.getCurrentDateStr();
                             String content = descriptionEditText.getText().toString();
 
                             boolean isAnonymous = false;
@@ -146,23 +182,30 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                                 isAnonymous = true;
                             }
 
-                            PostModel model = new PostModel();
-                            model.setId(id);
-                            model.setTitle(title);
-                            model.setContent(content);
-                            model.setAuthor(userLogin);
-                            model.setImageUrl(imageUrl);
-                            model.setAnonymous(isAnonymous);
-                            model.setCreatedDate(createdDate);
+                            PostRequest postRequest = new PostRequest();
+                            postRequest.setTitle(title);
+                            postRequest.setContent(content);
+                            postRequest.setImageUrl(imageUrl);
+                            postRequest.setMode(modeSpinner);
+                            postRequest.setType(typeSpinner);
+                            postRequest.setIsAnonymous(isAnonymous);
+                            postRequest.setAuthorId(userLogin.getId());
 
-                            databaseReference.child(Const.FirebaseRef.POSTS)
-                                    .child(id)
-                                    .setValue(model);
+                            Call<Void> callAddPost = apiService.addPost(postRequest);
+                            callAddPost.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }
 
-                            progressDialog.dismiss();
-                            Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
-
-                            onBackPressed();
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         });
                     })
                     .addOnFailureListener(exception -> {
@@ -207,6 +250,8 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
     private void clearData() {
         FilePathUri = null;
+        spnType.setSelection(0);
+        spnMode.setSelection(0);
         titleEditText.setText("");
         radioPublic.setChecked(true);
         descriptionEditText.setText("");

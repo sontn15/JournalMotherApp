@@ -8,10 +8,14 @@
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/activity_detail_post.xml" value="0.1" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/activity_detail_user.xml" value="0.1" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/activity_register.xml" value="0.33" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/activity_update_profile_user.xml" value="0.33" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/item_list_comment.xml" value="0.17249240121580547" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/item_memory.xml" value="0.17249240121580547" />
         <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/item_news.xml" value="0.33" />
+        <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/layout/spinner_item.xml" value="0.17249240121580547" />
+        <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/menu/main.xml" value="0.3546875" />
+        <entry key="..\:/SonTN/Project/Android/JournalMotherApp/app/src/main/res/menu/post_details_menu.xml" value="0.3546875" />
       </map>
     </option>
   </component>

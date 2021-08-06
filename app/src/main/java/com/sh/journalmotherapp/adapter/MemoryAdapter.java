@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.model.MemoryModel;
+import com.sh.journalmotherapp.model.PostEntity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
 
 public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder> {
     private final Context mContext;
-    private final List<MemoryModel> models;
+    private final List<PostEntity> models;
     private final OnPostItemClickListener listener;
 
-    public MemoryAdapter(Context mContext, List<MemoryModel> models, OnPostItemClickListener listener) {
+    public MemoryAdapter(Context mContext, List<PostEntity> models, OnPostItemClickListener listener) {
         this.mContext = mContext;
         this.models = models;
         this.listener = listener;
@@ -38,9 +38,9 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
 
     @Override
     public void onBindViewHolder(@NonNull MemoryViewHolder holder, int position) {
-        MemoryModel model = models.get(position);
+        PostEntity model = models.get(position);
         holder.tvContent.setText(model.getContent());
-        holder.tvFeeling.setText(model.getEmotion());
+        holder.tvFeeling.setText(model.getTitle());
         holder.dateTextView.setText(model.getCreatedDate());
 
         Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.ic_stub)
@@ -72,13 +72,13 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
             dateTextView = itemView.findViewById(R.id.dateTextView_memory);
         }
 
-        public void bind(final MemoryModel model, final OnPostItemClickListener listener) {
+        public void bind(final PostEntity model, final OnPostItemClickListener listener) {
             itemView.setOnClickListener(v -> listener.onClickItem(model));
         }
     }
 
     public interface OnPostItemClickListener {
-        void onClickItem(MemoryModel model);
+        void onClickItem(PostEntity model);
     }
 
 }

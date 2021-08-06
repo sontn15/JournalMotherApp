@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
 import com.sh.journalmotherapp.ui.authentication.LoginActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
@@ -25,12 +25,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
-    private TextView tvMarital, tvPregnant, tvHobbies;
+    private TextView tvKernelStatus, tvVotingStatus, tvNumberBaby;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
     private TextView tvLogOut;
 
     private MySharedPreferences preferences;
-    private UserModel userLogin;
+    private UserEntity userLogin;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.activity_detail_user, container, false);
@@ -44,15 +44,15 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         tvNameUser.setText(userLogin.getFullName());
-        tvBirthDayUser.setText(userLogin.getBirthDay());
+        tvBirthDayUser.setText(userLogin.getYearOfBirth() + "");
 
 
-        tvMarital.setText(userLogin.getMaritalStatus());
-        tvPregnant.setText(userLogin.getPregnantStatus());
-        tvHobbies.setText(userLogin.getHobbies());
+        tvKernelStatus.setText(userLogin.getKernelStatus());
+        tvVotingStatus.setText(userLogin.getVotingStatus());
+        tvNumberBaby.setText(userLogin.getNumberBaby());
 
         tvPhoneUser.setText(userLogin.getMobile());
-        tvBirthDay.setText(userLogin.getBirthDay());
+        tvBirthDay.setText(userLogin.getYearOfBirth() + "");
         tvAddressUser.setText(userLogin.getAddress());
         tvFullNameUser.setText(userLogin.getFullName());
         tvUsernameUser.setText(userLogin.getUsername());
@@ -71,9 +71,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         tvUsernameUser = root.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = root.findViewById(R.id.tvFullNameUser);
         tvLogOut = root.findViewById(R.id.tvLogOut);
-        tvMarital = root.findViewById(R.id.tvMaritalStatus);
-        tvPregnant = root.findViewById(R.id.tvPregnantStatus);
-        tvHobbies = root.findViewById(R.id.tvHobbies);
+        tvKernelStatus = root.findViewById(R.id.tvKernelStatus);
+        tvVotingStatus = root.findViewById(R.id.tvVotingStatus);
+        tvNumberBaby = root.findViewById(R.id.tvNumberBaby);
 
         tvLogOut.setOnClickListener(this);
     }

@@ -76,108 +76,6 @@
                         android:src="@drawable/ic_stub" />
 
                     <EditText
-                        android:id="@+id/edtFullNameRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Full name"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp">
-
-                        <requestFocus />
-                    </EditText>
-
-                    <EditText
-                        android:id="@+id/edtPhoneNumberRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Phone number"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
-                        android:id="@+id/edtBirthdayRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Birthday (dd/MM/yyyy)"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
-                        android:id="@+id/edtAddressRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Address"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-
-                    <EditText
-                        android:id="@+id/edtHobbiesRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Hobbies"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
-                        android:id="@+id/edtMaritalStatusRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Marital status"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
-                        android:id="@+id/edtPregnantStatusRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Pregnant status"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
                         android:id="@+id/edtUsernameRegister"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_36sdp"
@@ -203,6 +101,115 @@
                         android:hint="Password"
                         android:inputType="textPassword"
                         android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtFullNameRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Full name"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtPhoneNumberRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Phone number"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtYearOfBirthRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Year of birth"
+                        android:inputType="number"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtEmailRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
+                        android:id="@+id/edtAddressRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Address"
+                        android:inputType="text"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <Spinner
+                        android:id="@+id/spnKernelStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/_8sdp"
+                        android:spinnerMode="dropdown"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <Spinner
+                        android:id="@+id/spnVotingStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/_8sdp"
+                        android:spinnerMode="dropdown"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <Spinner
+                        android:id="@+id/spnNumberBaby"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="@dimen/_8sdp"
+                        android:spinnerMode="dropdown"
                         android:textSize="@dimen/_14ssp" />
 
                     <Button

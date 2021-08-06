@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.model.NewsModel;
+import com.sh.journalmotherapp.model.NewsEntity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,10 +19,10 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     private final Context mContext;
-    private final List<NewsModel> models;
+    private final List<NewsEntity> models;
     private final OnPostItemClickListener listener;
 
-    public NewsAdapter(Context mContext, List<NewsModel> models, OnPostItemClickListener listener) {
+    public NewsAdapter(Context mContext, List<NewsEntity> models, OnPostItemClickListener listener) {
         this.mContext = mContext;
         this.models = models;
         this.listener = listener;
@@ -38,7 +38,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        NewsModel model = models.get(position);
+        NewsEntity model = models.get(position);
 
         holder.titleTextView.setText(model.getTitle());
         holder.detailsTextView.setText(model.getContent());
@@ -69,13 +69,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             postImageView = itemView.findViewById(R.id.postImageView);
         }
 
-        public void bind(final NewsModel model, final OnPostItemClickListener listener) {
+        public void bind(final NewsEntity model, final OnPostItemClickListener listener) {
             itemView.setOnClickListener(v -> listener.onClickItem(model));
         }
     }
 
     public interface OnPostItemClickListener {
-        void onClickItem(NewsModel model);
+        void onClickItem(NewsEntity model);
     }
 
 }

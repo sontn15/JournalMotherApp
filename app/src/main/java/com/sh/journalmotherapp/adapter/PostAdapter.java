@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.model.PostModel;
+import com.sh.journalmotherapp.model.PostEntity;
 import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
 
@@ -22,10 +22,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     private final Context mContext;
-    private final List<PostModel> listPostModels;
+    private final List<PostEntity> listPostModels;
     private final OnPostItemClickListener listener;
 
-    public PostAdapter(Context mContext, List<PostModel> listPostModels, OnPostItemClickListener listener) {
+    public PostAdapter(Context mContext, List<PostEntity> listPostModels, OnPostItemClickListener listener) {
         this.mContext = mContext;
         this.listPostModels = listPostModels;
         this.listener = listener;
@@ -41,7 +41,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
-        PostModel model = listPostModels.get(position);
+        PostEntity model = listPostModels.get(position);
 
         holder.titleTextView.setText(model.getTitle());
         holder.detailsTextView.setText(model.getContent());
@@ -50,9 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 .error(R.drawable.ic_stub).into(holder.postImageView);
 
         String authorImageUrl = model.getAuthor().getImageUrl();
-
-        boolean isAnonymous = model.isAnonymous();
-        if (isAnonymous) {
+        if (model.getIsAnonymous()) {
             authorImageUrl = Const.ANONYMOUS_IMAGE_URL;
         }
 
@@ -89,13 +87,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             dateTextView = itemView.findViewById(R.id.dateTextView);
         }
 
-        public void bind(final PostModel model, final OnPostItemClickListener listener) {
+        public void bind(final PostEntity model, final OnPostItemClickListener listener) {
             itemView.setOnClickListener(v -> listener.onClickItem(model));
         }
     }
 
     public interface OnPostItemClickListener {
-        void onClickItem(PostModel model);
+        void onClickItem(PostEntity model);
     }
 
 }

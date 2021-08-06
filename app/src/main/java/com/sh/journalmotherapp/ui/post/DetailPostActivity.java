@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.support;
+package com.sh.journalmotherapp.ui.post;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,19 +21,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.CommentsAdapter;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.CommentModel;
-import com.sh.journalmotherapp.model.PostModel;
-import com.sh.journalmotherapp.model.UserModel;
-import com.sh.journalmotherapp.util.CommonUtil;
+import com.sh.journalmotherapp.model.CommentEntity;
+import com.sh.journalmotherapp.model.PostEntity;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
+import com.sh.journalmotherapp.network.request.CommentRequest;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 import com.squareup.picasso.Picasso;
@@ -43,6 +39,9 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailPostActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -58,19 +57,16 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     private TextView descriptionText;
     private RecyclerView commentsRecyclerView;
 
-    private MenuItem editActionMenuItem;
-    private MenuItem deleteActionMenuItem;
-
     private CommentsAdapter commentsAdapter;
-    private List<CommentModel> commentModelList;
-
+    private List<CommentEntity> commentModelList;
 
     private Button sendButton;
 
-    private UserModel userLogin;
+    private UserEntity userLogin;
     @Nullable
-    private PostModel postModel;
+    private PostEntity postModel;
     private MySharedPreferences preferences;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +80,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initData() {
+        apiService = RetrofitClient.getClient().create(ApiService.class);
         preferences = new MySharedPreferences(this);
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
         postModel = getIntent().getExtras().getParcelable(Const.POST_SELECTED);
@@ -91,7 +88,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         String authorImageUrl = postModel.getAuthor().getImageUrl();
         String authorName = postModel.getAuthor().getFullName();
 
-        boolean isAnonymous = postModel.isAnonymous();
+        boolean isAnonymous = postModel.getIsAnonymous();
         if (isAnonymous) {
             authorImageUrl = Const.ANONYMOUS_IMAGE_URL;
             authorName = "Anonymous";
@@ -134,13 +131,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     private void initRecyclerView() {
         commentModelList = new ArrayList<>();
 
-        commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, new CommentsAdapter.OnCommentItemClickListener() {
-
-            @Override
-            public void onClickAuthor(CommentModel model) {
-                openProfileActivity(model);
-            }
-        });
+        commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, model -> openProfileActivity(model));
 
         commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
@@ -150,27 +141,25 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         getAllCommentOfPost(postModel);
     }
 
-    private void getAllCommentOfPost(PostModel postModel) {
+    private void getAllCommentOfPost(PostEntity postModel) {
         if (NetworkUtils.haveNetwork(DetailPostActivity.this)) {
-            commentModelList.clear();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                    .child(Const.FirebaseRef.COMMENTS)
-                    .child(postModel.getId());
 
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            Call<List<CommentEntity>> call = apiService.getAllCommentInPost(postModel.getId());
+            call.enqueue(new Callback<List<CommentEntity>>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        CommentModel commentModel = dataSnap.getValue(CommentModel.class);
-                        if (commentModel != null) {
-                            commentModelList.add(commentModel);
+                public void onResponse(Call<List<CommentEntity>> call, Response<List<CommentEntity>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<CommentEntity> models = response.body();
+                        if (!models.isEmpty()) {
+                            commentModelList.clear();
+                            commentModelList.addAll(models);
                         }
                     }
                     commentsAdapter.notifyDataSetChanged();
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onFailure(Call<List<CommentEntity>> call, Throwable t) {
                     Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -215,26 +204,22 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
             return;
         }
 
-        String id = CommonUtil.generateUUID();
-        String createdDate = CommonUtil.getCurrentDateStr();
+        CommentRequest commentRequest = new CommentRequest();
+        commentRequest.setContent(commentText);
+        commentRequest.setCommentUserId(userLogin.getId());
 
-        CommentModel commentModel = new CommentModel();
-        commentModel.setId(id);
-        commentModel.setPost(postModel);
-        commentModel.setContent(commentText);
-        commentModel.setUserComment(userLogin);
-        commentModel.setCreatedDate(createdDate);
-
-        FirebaseDatabase.getInstance().getReference()
-                .child(Const.FirebaseRef.COMMENTS)
-                .child(postModel.getId())
-                .child(id)
-                .setValue(commentModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+        Call<Void> voidCall = apiService.commentOnPost(postModel.getId(), commentRequest);
+        voidCall.enqueue(new Callback<Void>() {
             @Override
-            public void onSuccess(Void unused) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 getAllCommentOfPost(postModel);
                 scrollToFirstComment();
                 Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.commented), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
 
@@ -257,18 +242,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void openProfileActivity(CommentModel model) {
-//        Intent intent = new Intent(PostDetailActivity.this, ProfileActivity.class);
-//        intent.putExtra(ProfileActivity.USER_ID_EXTRA_KEY, userId);
-//
-//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && view != null) {
-//            ActivityOptions options = ActivityOptions.
-//                    makeSceneTransitionAnimation(PostDetailActivity.this,
-//                            new android.util.Pair<>(view, getString(R.string.post_author_image_transition_name)));
-//            startActivity(intent, options.toBundle());
-//        } else {
-//            startActivity(intent);
-//        }
+    private void openProfileActivity(CommentEntity model) {
     }
 
     @Override

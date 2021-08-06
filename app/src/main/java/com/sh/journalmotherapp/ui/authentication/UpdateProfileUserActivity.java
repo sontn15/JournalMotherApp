@@ -9,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
 import com.sh.journalmotherapp.util.Const;
 
 import java.util.Objects;
 
 public class UpdateProfileUserActivity extends AppCompatActivity {
 
-    private UserModel userLogin;
+    private UserEntity userLogin;
     private MySharedPreferences preferences;
 
     @Override

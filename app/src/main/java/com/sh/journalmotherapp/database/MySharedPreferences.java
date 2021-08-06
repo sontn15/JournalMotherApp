@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
 
 public class MySharedPreferences {
     private static final String MY_SHARE_PREFERENCES = "JournalSharePreference";
@@ -63,7 +63,7 @@ public class MySharedPreferences {
         return sharedPreferences.getBoolean(key, false);
     }
 
-    public void putUserLogin(String key, UserModel userDetail) {
+    public void putUserLogin(String key, UserEntity userDetail) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(MY_SHARE_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
@@ -72,11 +72,11 @@ public class MySharedPreferences {
         editor.apply();
     }
 
-    public UserModel getUserLogin(String key) {
+    public UserEntity getUserLogin(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences(MY_SHARE_PREFERENCES, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(key, "");
-        return gson.fromJson(json, UserModel.class);
+        return gson.fromJson(json, UserEntity.class);
     }
 
 

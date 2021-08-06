@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.custom.ExpandableTextView;
-import com.sh.journalmotherapp.model.CommentModel;
+import com.sh.journalmotherapp.model.CommentEntity;
 import com.sh.journalmotherapp.util.FormatterUtil;
 import com.squareup.picasso.Picasso;
 
@@ -30,13 +30,13 @@ import lombok.SneakyThrows;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
     private final Context mContext;
-    private final List<CommentModel> commentModelList;
+    private final List<CommentEntity> commentModelList;
     private final OnCommentItemClickListener listener;
 
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    public CommentsAdapter(Context mContext, List<CommentModel> commentModelList, OnCommentItemClickListener listener) {
+    public CommentsAdapter(Context mContext, List<CommentEntity> commentModelList, OnCommentItemClickListener listener) {
         this.mContext = mContext;
         this.commentModelList = commentModelList;
         this.listener = listener;
@@ -53,20 +53,20 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @SneakyThrows
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        CommentModel model = commentModelList.get(position);
+        CommentEntity model = commentModelList.get(position);
 
         long timestamp = Objects.requireNonNull(dateFormat.parse(model.getCreatedDate())).getTime();
         CharSequence date = FormatterUtil.getRelativeTimeSpanString(mContext, timestamp);
         holder.dateTextView.setText(date);
 
-        Spannable contentString = new SpannableStringBuilder(model.getUserComment().getFullName() + "   " + model.getContent());
+        Spannable contentString = new SpannableStringBuilder(model.getUser().getFullName() + "   " + model.getContent());
         contentString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.highlight_text)),
-                0, model.getUserComment().getFullName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                0, model.getUser().getFullName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.commentTextView.setText(model.getContent());
 
-        holder.tvNameUserComment.setText(model.getUserComment().getFullName());
+        holder.tvNameUserComment.setText(model.getUser().getFullName());
 
-        Picasso.get().load(model.getUserComment().getImageUrl()).placeholder(R.drawable.ic_app_256)
+        Picasso.get().load(model.getUser().getImageUrl()).placeholder(R.drawable.ic_app_256)
                 .error(R.drawable.ic_app_256).into(holder.avatarImageView);
 
         holder.bind(model, listener);
@@ -88,19 +88,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNameUserComment = (TextView) itemView.findViewById(R.id.tvNameUserComment);
-            commentTextView = (ExpandableTextView) itemView.findViewById(R.id.commentTextComment);
-            avatarImageView = (CircleImageView) itemView.findViewById(R.id.avatarImageViewComment);
-            dateTextView = (TextView) itemView.findViewById(R.id.dateTextViewComment);
+            tvNameUserComment = itemView.findViewById(R.id.tvNameUserComment);
+            commentTextView = itemView.findViewById(R.id.commentTextComment);
+            avatarImageView = itemView.findViewById(R.id.avatarImageViewComment);
+            dateTextView = itemView.findViewById(R.id.dateTextViewComment);
         }
 
-        public void bind(final CommentModel model, final OnCommentItemClickListener listener) {
+        public void bind(final CommentEntity model, final OnCommentItemClickListener listener) {
             avatarImageView.setOnClickListener(v -> listener.onClickAuthor(model));
         }
     }
 
     public interface OnCommentItemClickListener {
-        void onClickAuthor(CommentModel model);
+        void onClickAuthor(CommentEntity model);
     }
 
 }

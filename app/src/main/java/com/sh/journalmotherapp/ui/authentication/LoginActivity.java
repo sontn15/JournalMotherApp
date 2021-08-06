@@ -15,29 +15,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.ReminderModel;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
+import com.sh.journalmotherapp.network.request.LoginRequest;
 import com.sh.journalmotherapp.service.NotificationReceiver;
 import com.sh.journalmotherapp.ui.main.MainActivity;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -46,6 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog progressDialog;
     private EditText edtUsername, edtPassword;
 
+    private ApiService apiService;
     private MySharedPreferences preferences;
 
     @Override
@@ -62,7 +62,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             preferences = new MySharedPreferences(LoginActivity.this);
         }
 
-        UserModel userModel = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
+        apiService = RetrofitClient.getClient().create(ApiService.class);
+
+        UserEntity userModel = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
         if (userModel != null) {
             createReminderNotification(userModel);
 
@@ -113,35 +115,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (NetworkUtils.haveNetwork(LoginActivity.this)) {
             showProgressDialog();
 
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child(Const.FirebaseRef.USERS);
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            LoginRequest request = LoginRequest.builder()
+                    .username(username)
+                    .password(password)
+                    .build();
+
+            Call<UserEntity> callLogin = apiService.login(request);
+            callLogin.enqueue(new Callback<UserEntity>() {
                 @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    boolean isCheck = false;
-                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        UserModel user = dataSnap.getValue(UserModel.class);
-                        if (user != null) {
-                            if (username.equalsIgnoreCase(user.getUsername()) && password.equalsIgnoreCase(user.getPassword())) {
-                                isCheck = true;
-                                preferences.putUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN, user);
+                public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        UserEntity userEntity = response.body();
+                        preferences.putUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN, userEntity);
 
-                                createReminderNotification(user);
+                        createReminderNotification(userEntity);
 
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        }
-                    }
-                    if (!isCheck) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
                         Toast.makeText(LoginActivity.this, getResources().getString(R.string.taikhoan_matkhau_khong_dung), Toast.LENGTH_SHORT).show();
                     }
                     hiddenProgressDialog();
                 }
 
                 @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                public void onFailure(Call<UserEntity> call, Throwable t) {
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.dang_nhap_thai_bai), Toast.LENGTH_SHORT).show();
                     hiddenProgressDialog();
-                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.taikhoan_matkhau_khong_dung), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void createReminderNotification(UserModel userModel) {
+    private void createReminderNotification(UserEntity userModel) {
         List<ReminderModel> reminderModels = new ArrayList<>();
         reminderModels.add(new ReminderModel("Good morning " + userModel.getUsername() + ", remember to start your day with a smile to make it bright.", 6, 0));
         reminderModels.add(new ReminderModel("Good morning " + userModel.getUsername() + ", a new day is a new page of your story! Make it boomed!", 6, 15));

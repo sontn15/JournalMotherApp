@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
 import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
 
@@ -24,11 +24,11 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
 
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
-    private TextView tvMarital, tvPregnant, tvHobbies;
+    private TextView tvKernelStatus, tvVotingStatus, tvNumberBaby;
     private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
     private TextView tvLogOut;
 
-    private UserModel userLogin;
+    private UserEntity userLogin;
     private MySharedPreferences preferences;
 
     @Override
@@ -47,14 +47,13 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         tvNameUser.setText(userLogin.getFullName());
-        tvBirthDayUser.setText(userLogin.getBirthDay());
+        tvBirthDayUser.setText(userLogin.getYearOfBirth() + "");
 
-        tvMarital.setText(userLogin.getMaritalStatus());
-        tvPregnant.setText(userLogin.getPregnantStatus());
-        tvHobbies.setText(userLogin.getHobbies());
-
+        tvKernelStatus.setText(userLogin.getKernelStatus());
+        tvVotingStatus.setText(userLogin.getVotingStatus());
+        tvNumberBaby.setText(userLogin.getNumberBaby());
         tvPhoneUser.setText(userLogin.getMobile());
-        tvBirthDay.setText(userLogin.getBirthDay());
+        tvBirthDay.setText(userLogin.getYearOfBirth() + "");
         tvAddressUser.setText(userLogin.getAddress());
         tvFullNameUser.setText(userLogin.getFullName());
         tvUsernameUser.setText(userLogin.getUsername());
@@ -72,9 +71,9 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         tvBirthDayUser = this.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = this.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = this.findViewById(R.id.tvFullNameUser);
-        tvMarital = this.findViewById(R.id.tvMaritalStatus);
-        tvPregnant = this.findViewById(R.id.tvPregnantStatus);
-        tvHobbies = this.findViewById(R.id.tvHobbies);
+        tvKernelStatus = this.findViewById(R.id.tvKernelStatus);
+        tvVotingStatus = this.findViewById(R.id.tvVotingStatus);
+        tvNumberBaby = this.findViewById(R.id.tvNumberBaby);
         tvLogOut = this.findViewById(R.id.tvLogOut);
 
         tvLogOut.setOnClickListener(this);

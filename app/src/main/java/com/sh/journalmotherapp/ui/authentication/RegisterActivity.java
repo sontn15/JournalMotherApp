@@ -9,32 +9,31 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.model.UserModel;
-import com.sh.journalmotherapp.util.CommonUtil;
-import com.sh.journalmotherapp.util.Const;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
+import com.sh.journalmotherapp.network.request.RegisterRequest;
 import com.sh.journalmotherapp.util.NetworkUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -42,16 +41,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegister;
     private CircleImageView imvImage;
     private ProgressDialog progressDialog;
-    private EditText edtName, edtAddress, edtPhone, edtUsername, edtPassword, edtBirthDay, edtMaritalStatus, edtPregnantStatus, edtHobbies;
+    private Spinner spnKernelStatus, spnVotingStatus, spnNumberBaby;
+    private EditText edtName, edtAddress, edtPhone, edtUsername, edtPassword, edtBirthDay, edtEmail;
 
     // Creating URI.
     private Uri FilePathUri;
 
     private StorageReference storageReference;
-    private DatabaseReference databaseReference;
 
     // Image request code for onActivityResult() .
     private final int Image_Request_Code = 9;
+
+    private ApiService apiService;
+
+    private final String arrKernelStatus[] = {"Single", "Married", "Separated", "Divorced"};
+    private final String arrNumberBabies[] = {"1 baby", "2 babies", "3 babies", "4 babies", "5 babies", "5 babies more"};
+    private final String arrVotingStatus[] = {"First trimester – conception to 12 weeks", "Second trimester – 12 to 24 weeks", "Third trimester – 24 to 40 weeks",
+            "Postpartum period (6 weeks after birth)", "3 to 6 months after birth", "New normal mom (6 to 18 months of postpartum)"};
+
+    private String kernelStatus;
+    private String votingStatus;
+    private String numberBaby;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void initData() {
         storageReference = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 
     private void initViews() {
@@ -77,15 +87,63 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edtPhone = this.findViewById(R.id.edtPhoneNumberRegister);
         edtUsername = this.findViewById(R.id.edtUsernameRegister);
         edtPassword = this.findViewById(R.id.edtPassRegister);
-        edtBirthDay = this.findViewById(R.id.edtBirthdayRegister);
+        edtBirthDay = this.findViewById(R.id.edtYearOfBirthRegister);
         btnRegister = this.findViewById(R.id.btnRegister);
         imvImage = this.findViewById(R.id.imvImage);
-        edtMaritalStatus = this.findViewById(R.id.edtMaritalStatusRegister);
-        edtPregnantStatus = this.findViewById(R.id.edtPregnantStatusRegister);
-        edtHobbies = this.findViewById(R.id.edtHobbiesRegister);
+        edtEmail = this.findViewById(R.id.edtEmailRegister);
+
+        spnKernelStatus = this.findViewById(R.id.spnKernelStatus);
+        spnVotingStatus = this.findViewById(R.id.spnVotingStatus);
+        spnNumberBaby = this.findViewById(R.id.spnNumberBaby);
+
+        ArrayAdapter<String> kernelStatusAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrKernelStatus);
+        ArrayAdapter<String> votingStatusAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrVotingStatus);
+        ArrayAdapter<String> numberBabiesAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrNumberBabies);
+
+        spnKernelStatus.setAdapter(kernelStatusAdapter);
+        spnVotingStatus.setAdapter(votingStatusAdapter);
+        spnNumberBaby.setAdapter(numberBabiesAdapter);
+
 
         imvImage.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+
+
+        spnKernelStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                kernelStatus = arrKernelStatus[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnVotingStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                votingStatus = arrVotingStatus[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnNumberBaby.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numberBaby = arrNumberBabies[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void clearData() {
@@ -96,10 +154,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         edtUsername.setText("");
         edtPassword.setText("");
         edtBirthDay.setText("");
-        edtMaritalStatus.setText("");
-        edtPregnantStatus.setText("");
-        edtHobbies.setText("");
+        edtEmail.setText("");
         imvImage.setImageDrawable(getResources().getDrawable(R.drawable.ic_stub));
+
+        spnKernelStatus.setSelection(0);
+        spnVotingStatus.setSelection(0);
+        spnNumberBaby.setSelection(0);
     }
 
     @Override
@@ -121,11 +181,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
         String birthDay = edtBirthDay.getText().toString();
-        String hobbies = edtHobbies.getText().toString();
-        String maritalStatus = edtMaritalStatus.getText().toString();
-        String pregnantStatus = edtPregnantStatus.getText().toString();
+        String email = edtEmail.getText().toString();
 
-        if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty() || hobbies.isEmpty() || maritalStatus.isEmpty() || pregnantStatus.isEmpty() || FilePathUri == null) {
+        if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty() || FilePathUri == null || email.isEmpty()) {
             Toast.makeText(this, getResources().getString(R.string.vui_long_nhap_day_du_thong_tin), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -133,66 +191,62 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         if (NetworkUtils.haveNetwork(RegisterActivity.this)) {
             showProgressDialog();
 
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-            Query query = reference.child(Const.FirebaseRef.USERS).orderByChild("username").equalTo(username);
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        Toast.makeText(RegisterActivity.this, getResources().getString(R.string.username_ton_tai), Toast.LENGTH_SHORT).show();
-                    } else {
-                        String imageName = username.trim() + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri);
+            String imageName = username.trim() + System.currentTimeMillis() + "." + GetFileExtension(FilePathUri);
 
-                        StorageReference storageReference2nd = storageReference.child(imageName);
-                        storageReference2nd.putFile(FilePathUri)
-                                .addOnSuccessListener(taskSnapshot -> {
-                                    storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
-                                        String imageUrl = uri.toString();
+            StorageReference storageReference2nd = storageReference.child(imageName);
+            storageReference2nd.putFile(FilePathUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String imageUrl = uri.toString();
 
-                                        String id = CommonUtil.generateUUID();
+                            RegisterRequest registerRequest = RegisterRequest.builder()
+                                    .username(username)
+                                    .password(password)
+                                    .fullName(name)
+                                    .mobile(phoneNumber)
+                                    .address(address)
+                                    .email(email)
+                                    .imageUrl(imageUrl)
+                                    .yearOfBirth(Integer.valueOf(birthDay))
+                                    .kernelStatus(kernelStatus)
+                                    .votingStatus(votingStatus)
+                                    .numberBaby(numberBaby)
+                                    .build();
 
-                                        UserModel userRegister = UserModel.builder()
-                                                .id(id)
-                                                .likesCount(0)
-                                                .imageUrl(imageUrl)
-                                                .fullName(name.trim())
-                                                .address(address.trim())
-                                                .password(password.trim())
-                                                .mobile(phoneNumber.trim())
-                                                .birthDay(birthDay.trim())
-                                                .username(username.trim().toLowerCase())
-                                                .hobbies(hobbies)
-                                                .maritalStatus(maritalStatus)
-                                                .pregnantStatus(pregnantStatus)
-                                                .build();
-
-                                        databaseReference.child(Const.FirebaseRef.USERS).child(id).setValue(userRegister);
-
+                            Call<UserEntity> callRegister = apiService.register(registerRequest);
+                            callRegister.enqueue(new Callback<UserEntity>() {
+                                @Override
+                                public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                                    if (response.isSuccessful() && response.body() != null) {
                                         hiddenProgressDialog();
+
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thanh_cong), Toast.LENGTH_SHORT).show();
 
                                         Intent mIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                                         startActivity(mIntent);
                                         finish();
-                                    });
-                                })
-                                .addOnFailureListener(exception -> {
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thai_bai), Toast.LENGTH_SHORT).show();
+                                    }
                                     hiddenProgressDialog();
+                                }
+
+                                @Override
+                                public void onFailure(Call<UserEntity> call, Throwable t) {
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thai_bai), Toast.LENGTH_SHORT).show();
-                                })
+                                    hiddenProgressDialog();
+                                }
+                            });
 
-                                // On progress change upload time.
-                                .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.vui_long_doi) + "..."));
-                    }
-                    hiddenProgressDialog();
-                }
+                        });
+                    })
+                    .addOnFailureListener(exception -> {
+                        hiddenProgressDialog();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.dang_ky_thai_bai), Toast.LENGTH_SHORT).show();
+                    })
 
-                @Override
-                public void onCancelled(@NotNull DatabaseError databaseError) {
-                    hiddenProgressDialog();
-                    Toast.makeText(RegisterActivity.this, getResources().getString(R.string.dang_ky_thai_bai), Toast.LENGTH_SHORT).show();
-                }
-            });
+                    // On progress change upload time.
+                    .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.vui_long_doi) + "..."));
         } else {
             Toast.makeText(RegisterActivity.this, getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
             hiddenProgressDialog();

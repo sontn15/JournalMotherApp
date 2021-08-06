@@ -14,31 +14,35 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsModel implements Serializable, Parcelable {
+public class NewsEntity implements Serializable, Parcelable {
 
-    private String id;
+    private Long id;
     private String title;
     private String content;
     private String imageUrl;
     private String category;
 
-    protected NewsModel(Parcel in) {
-        id = in.readString();
+    protected NewsEntity(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
         title = in.readString();
         content = in.readString();
         imageUrl = in.readString();
         category = in.readString();
     }
 
-    public static final Creator<NewsModel> CREATOR = new Creator<NewsModel>() {
+    public static final Creator<NewsEntity> CREATOR = new Creator<NewsEntity>() {
         @Override
-        public NewsModel createFromParcel(Parcel in) {
-            return new NewsModel(in);
+        public NewsEntity createFromParcel(Parcel in) {
+            return new NewsEntity(in);
         }
 
         @Override
-        public NewsModel[] newArray(int size) {
-            return new NewsModel[size];
+        public NewsEntity[] newArray(int size) {
+            return new NewsEntity[size];
         }
     };
 
@@ -49,7 +53,12 @@ public class NewsModel implements Serializable, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        if (id == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(id);
+        }
         dest.writeString(title);
         dest.writeString(content);
         dest.writeString(imageUrl);

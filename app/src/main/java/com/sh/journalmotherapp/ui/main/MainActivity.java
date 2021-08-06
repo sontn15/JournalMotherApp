@@ -17,7 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.UserEntity;
 import com.sh.journalmotherapp.util.Const;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = this.findViewById(R.id.nav_view);
 
         MySharedPreferences preferences = new MySharedPreferences(this);
-        UserModel userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
+        UserEntity userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         View hView = navigationView.getHeaderView(0);
         TextView nav_user = hView.findViewById(R.id.nav_name);

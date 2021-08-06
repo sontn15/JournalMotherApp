@@ -25,14 +25,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
+import com.sh.journalmotherapp.constant.PostModeEnum;
+import com.sh.journalmotherapp.constant.PostTypeEnum;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.MemoryModel;
-import com.sh.journalmotherapp.model.UserModel;
-import com.sh.journalmotherapp.util.CommonUtil;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
+import com.sh.journalmotherapp.network.request.PostRequest;
 import com.sh.journalmotherapp.util.Const;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     ImageView imv_memory;
@@ -50,8 +57,10 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
 
     ProgressDialog progressDialog;
 
+    UserEntity userLogin;
     MySharedPreferences preferences;
-    UserModel userLogin;
+
+    private ApiService apiService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +98,7 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
 
         // Assign FirebaseDatabase instance with root database name.
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 
     @Override
@@ -127,34 +137,38 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
                     .addOnSuccessListener(taskSnapshot -> {
                         storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
-
-                            String id = CommonUtil.generateUUID();
+                            String title = edt_felling.getText().toString();
                             String content = edt_content.getText().toString();
-                            String felling = edt_felling.getText().toString();
-                            String createdDate = CommonUtil.getCurrentDateStr();
 
-                            MemoryModel memoryModel = new MemoryModel();
-                            memoryModel.setId(id);
-                            memoryModel.setEmotion(felling);
-                            memoryModel.setContent(content);
-                            memoryModel.setUserModel(userLogin);
-                            memoryModel.setCreatedDate(createdDate);
-                            memoryModel.setImageUrl(imageUrl);
+                            PostRequest postRequest = new PostRequest();
+                            postRequest.setTitle(title);
+                            postRequest.setContent(content);
+                            postRequest.setImageUrl(imageUrl);
+                            postRequest.setIsAnonymous(false);
+                            postRequest.setAuthorId(userLogin.getId());
+                            postRequest.setMode(PostModeEnum.PRIVATE.getName());
+                            postRequest.setType(PostTypeEnum.MEMORIES.getName());
 
-                            databaseReference.child(Const.FirebaseRef.MEMORIES)
-                                    .child(userLogin.getUsername())
-                                    .child(id)
-                                    .setValue(memoryModel);
+                            Call<Void> callAddPost = apiService.addPost(postRequest);
+                            callAddPost.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_memory_success), Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
+                                }
 
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.create_memory_success), Toast.LENGTH_SHORT).show();
-
-                            onBackPressed();
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_memory_failed), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         });
                     })
                     .addOnFailureListener(exception -> {
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.create_memory_failed), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                     })
 
                     // On progress change upload time.

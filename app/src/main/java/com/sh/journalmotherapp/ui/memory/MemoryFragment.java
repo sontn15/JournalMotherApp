@@ -14,21 +14,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sh.journalmotherapp.R;
 import com.sh.journalmotherapp.adapter.MemoryAdapter;
+import com.sh.journalmotherapp.constant.PostTypeEnum;
 import com.sh.journalmotherapp.database.MySharedPreferences;
-import com.sh.journalmotherapp.model.MemoryModel;
-import com.sh.journalmotherapp.model.UserModel;
+import com.sh.journalmotherapp.model.PostEntity;
+import com.sh.journalmotherapp.model.UserEntity;
+import com.sh.journalmotherapp.network.ApiService;
+import com.sh.journalmotherapp.network.RetrofitClient;
 import com.sh.journalmotherapp.util.Const;
 import com.sh.journalmotherapp.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MemoryFragment extends Fragment implements View.OnClickListener {
@@ -39,16 +41,23 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView rcvMemory;
     private MemoryAdapter memoryAdapter;
-    private List<MemoryModel> memoryModels;
+    private List<PostEntity> memoryModels;
 
+    private UserEntity userLogin;
     private MySharedPreferences preferences;
-    private UserModel userLogin;
+
+    private ApiService apiService;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_memory, container, false);
+        initData();
         initView();
         initAdapter();
         return root;
+    }
+
+    private void initData() {
+        apiService = RetrofitClient.getClient().create(ApiService.class);
     }
 
     private void initView() {
@@ -67,11 +76,8 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
 
         memoryModels = new ArrayList<>();
-        memoryAdapter = new MemoryAdapter(requireContext(), memoryModels, new MemoryAdapter.OnPostItemClickListener() {
-            @Override
-            public void onClickItem(MemoryModel model) {
+        memoryAdapter = new MemoryAdapter(requireContext(), memoryModels, model -> {
 
-            }
         });
 
         rcvMemory.setAdapter(memoryAdapter);
@@ -81,26 +87,22 @@ public class MemoryFragment extends Fragment implements View.OnClickListener {
 
     private void getAllMemories() {
         if (NetworkUtils.haveNetwork(requireContext())) {
-            memoryModels.clear();
-
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
-                    .child(Const.FirebaseRef.MEMORIES)
-                    .child(userLogin.getUsername());
-
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            Call<List<PostEntity>> call = apiService.getPosts(null, PostTypeEnum.MEMORIES.getName());
+            call.enqueue(new Callback<List<PostEntity>>() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnap : snapshot.getChildren()) {
-                        MemoryModel model = dataSnap.getValue(MemoryModel.class);
-                        if (model != null) {
-                            memoryModels.add(model);
-                            memoryAdapter.notifyDataSetChanged();
+                public void onResponse(Call<List<PostEntity>> call, Response<List<PostEntity>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        List<PostEntity> models = response.body();
+                        if (!models.isEmpty()) {
+                            memoryModels.clear();
+                            memoryModels.addAll(models);
                         }
                     }
+                    memoryAdapter.notifyDataSetChanged();
                 }
 
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                public void onFailure(Call<List<PostEntity>> call, Throwable t) {
                     Toast.makeText(requireContext(), getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
                 }
             });

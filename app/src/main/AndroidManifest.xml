@@ -46,11 +46,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.support.CreatePostActivity"
+            android:name=".ui.post.CreatePostActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.support.DetailPostActivity"
+            android:name=".ui.post.DetailPostActivity"
             android:theme="@style/AppTheme" />
 
         <activity

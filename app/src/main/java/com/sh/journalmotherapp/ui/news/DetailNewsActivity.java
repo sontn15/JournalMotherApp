@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.model.NewsModel;
+import com.sh.journalmotherapp.model.NewsEntity;
 import com.sh.journalmotherapp.util.Const;
 import com.squareup.picasso.Picasso;
 
@@ -23,7 +23,7 @@ public class DetailNewsActivity extends AppCompatActivity {
     private TextView detailsTextView;
     private ImageView imvImage;
 
-    private NewsModel newsModel;
+    private NewsEntity newsModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

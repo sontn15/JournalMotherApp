@@ -210,11 +210,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center_vertical"
-                    android:text="Hobbies"
+                    android:text="Kernel status"
                     android:textSize="@dimen/_13ssp" />
 
                 <TextView
-                    android:id="@+id/tvHobbies"
+                    android:id="@+id/tvKernelStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
@@ -235,11 +235,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center_vertical"
-                    android:text="Marital status"
+                    android:text="Voting status"
                     android:textSize="@dimen/_13ssp" />
 
                 <TextView
-                    android:id="@+id/tvMaritalStatus"
+                    android:id="@+id/tvVotingStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
@@ -260,11 +260,11 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center_vertical"
-                    android:text="Pregnant status"
+                    android:text="Number baby"
                     android:textSize="@dimen/_13ssp" />
 
                 <TextView
-                    android:id="@+id/tvPregnantStatus"
+                    android:id="@+id/tvNumberBaby"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
