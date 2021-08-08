@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.post;
+package com.sh.journalmotherapp.ui.journal;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -43,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailPostActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+public class DetailTheJournalActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     private EditText commentEditText;
 
@@ -71,9 +71,9 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_post);
+        setContentView(R.layout.activity_detail_journal);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Post detail");
+        getSupportActionBar().setTitle("The Journal detail");
         initView();
         initData();
         initRecyclerView();
@@ -131,7 +131,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     private void initRecyclerView() {
         commentModelList = new ArrayList<>();
 
-        commentsAdapter = new CommentsAdapter(DetailPostActivity.this, commentModelList, model -> openProfileActivity(model));
+        commentsAdapter = new CommentsAdapter(DetailTheJournalActivity.this, commentModelList, model -> openProfileActivity(model));
 
         commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addItemDecoration(new DividerItemDecoration(commentsRecyclerView.getContext(),
@@ -142,7 +142,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void getAllCommentOfPost(PostEntity postModel) {
-        if (NetworkUtils.haveNetwork(DetailPostActivity.this)) {
+        if (NetworkUtils.haveNetwork(DetailTheJournalActivity.this)) {
 
             Call<List<CommentEntity>> call = apiService.getAllCommentInPost(postModel.getId());
             call.enqueue(new Callback<List<CommentEntity>>() {
@@ -160,11 +160,11 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onFailure(Call<List<CommentEntity>> call, Throwable t) {
-                    Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailTheJournalActivity.this, getResources().getString(R.string.co_loi_xay_ra), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailTheJournalActivity.this, getResources().getString(R.string.check_connection_network), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -200,7 +200,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
         String commentText = commentEditText.getText().toString();
 
         if (commentText.isEmpty()) {
-            Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.please_comment), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DetailTheJournalActivity.this, getResources().getString(R.string.please_comment), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -214,7 +214,7 @@ public class DetailPostActivity extends AppCompatActivity implements View.OnClic
             public void onResponse(Call<Void> call, Response<Void> response) {
                 getAllCommentOfPost(postModel);
                 scrollToFirstComment();
-                Toast.makeText(DetailPostActivity.this, getResources().getString(R.string.commented), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailTheJournalActivity.this, getResources().getString(R.string.commented), Toast.LENGTH_SHORT).show();
             }
 
             @Override

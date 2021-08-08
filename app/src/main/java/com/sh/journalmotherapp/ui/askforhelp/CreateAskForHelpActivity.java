@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.post;
+package com.sh.journalmotherapp.ui.askforhelp;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -40,9 +40,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CreatePostActivity extends AppCompatActivity implements View.OnClickListener {
+public class CreateAskForHelpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Spinner spnType, spnMode;
+    private Spinner spnMode;
     private ImageView imageView;
     private Button btnCancel, btnPost;
     private RadioButton radioPublic, radioAnonymous;
@@ -59,17 +59,15 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
     private ApiService apiService;
     private StorageReference storageReference;
 
-    private String typeSpinner;
     private String modeSpinner;
-    private final String arrTypeSpinner[] = {"#memories", "#ask_for_help"};
     private final String arrModeSpinner[] = {"Public", "Private"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_post);
+        setContentView(R.layout.activity_create_ask_for_help);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Create a post");
+        getSupportActionBar().setTitle("Create an ask for help");
         initData();
         initView();
         clearData();
@@ -93,32 +91,16 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
         radioPublic = this.findViewById(R.id.radioPublic);
         radioAnonymous = this.findViewById(R.id.radioAnonymous);
 
-        spnType = this.findViewById(R.id.spnType);
-        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrTypeSpinner);
-        spnType.setAdapter(typeAdapter);
-
         spnMode = this.findViewById(R.id.spnMode);
         ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrModeSpinner);
         spnMode.setAdapter(modeAdapter);
 
-        progressDialog = new ProgressDialog(CreatePostActivity.this);
+        progressDialog = new ProgressDialog(CreateAskForHelpActivity.this);
         progressDialog.setCanceledOnTouchOutside(false);
 
         btnPost.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         imageView.setOnClickListener(this);
-
-        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                typeSpinner = arrTypeSpinner[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         spnMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -187,7 +169,7 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                             postRequest.setContent(content);
                             postRequest.setImageUrl(imageUrl);
                             postRequest.setMode(modeSpinner);
-                            postRequest.setType(typeSpinner);
+                            postRequest.setType("#ask_for_help");
                             postRequest.setIsAnonymous(isAnonymous);
                             postRequest.setAuthorId(userLogin.getId());
 
@@ -196,27 +178,27 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateAskForHelpActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
                                     onBackPressed();
                                 }
 
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateAskForHelpActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         });
                     })
                     .addOnFailureListener(exception -> {
                         progressDialog.dismiss();
-                        Toast.makeText(CreatePostActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateAskForHelpActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                     })
 
                     // On progress change upload time.
                     .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.dang_dang_bai) + "..."));
         } else {
-            Toast.makeText(CreatePostActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateAskForHelpActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -250,7 +232,6 @@ public class CreatePostActivity extends AppCompatActivity implements View.OnClic
 
     private void clearData() {
         FilePathUri = null;
-        spnType.setSelection(0);
         spnMode.setSelection(0);
         titleEditText.setText("");
         radioPublic.setChecked(true);

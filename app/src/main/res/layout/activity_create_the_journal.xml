@@ -56,13 +56,56 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvIncognitoMode"
+            android:id="@+id/tvTypePost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/input_layout_description"
             android:paddingTop="@dimen/_10sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:text="Hidden user"
+            android:text="Choice hash tag"
+            android:textSize="@dimen/_14ssp" />
+
+        <Spinner
+            android:id="@+id/spnType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTypePost"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/_14ssp" />
+
+
+        <TextView
+            android:id="@+id/tvMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spnType"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="Choice post mode"
+            android:textSize="@dimen/_14ssp" />
+
+        <Spinner
+            android:id="@+id/spnMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMode"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/_14ssp" />
+
+        <TextView
+            android:id="@+id/tvIncognitoMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spnMode"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="Choice incognito mode"
             android:textSize="@dimen/_14ssp" />
 
         <RadioGroup
@@ -91,53 +134,10 @@
                 android:text="Anonymous" />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/tvTypePost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/radioGroupPrivatePost"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="Hash tag"
-            android:textSize="@dimen/_14ssp" />
-
-        <Spinner
-            android:id="@+id/spnType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvTypePost"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:spinnerMode="dropdown"
-            android:textSize="@dimen/_14ssp" />
-
-
-        <TextView
-            android:id="@+id/tvMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spnType"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_5sdp"
-            android:text="Post mode"
-            android:textSize="@dimen/_14ssp" />
-
-        <Spinner
-            android:id="@+id/spnMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvMode"
-            android:fontFamily="@font/roboto_regular"
-            android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_10sdp"
-            android:spinnerMode="dropdown"
-            android:textSize="@dimen/_14ssp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
-            android:layout_below="@+id/spnMode"
+            android:layout_below="@+id/radioGroupPrivatePost"
             android:layout_marginTop="@dimen/_18sdp"
             android:layout_marginBottom="@dimen/_18sdp"
             android:orientation="horizontal">

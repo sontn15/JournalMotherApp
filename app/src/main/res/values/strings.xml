@@ -9,7 +9,7 @@
 
     <string name="menu_news">News</string>
     <string name="menu_support">Ask for help</string>
-    <string name="menu_memory">Journal</string>
+    <string name="menu_memory">The Journal</string>
     <string name="menu_setting">Setting</string>
     <string name="menu_account">Account</string>
 
@@ -163,6 +163,9 @@
     <string name="fcm_message">Journal Mother Message</string>
     <string name="please_comment">Please leave a comment</string>
     <string name="commented">Commented</string>
+    <string name="vui_long_chon_kernel">Please choice marital status</string>
+    <string name="vui_long_chon_voting">Please choice fetal status</string>
+    <string name="vui_long_chon_number_baby">Please choice number baby</string>
 
     <string-array name="feelings">
         <item>Vui vẻ</item>

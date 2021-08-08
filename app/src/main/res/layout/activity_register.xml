@@ -54,7 +54,7 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:fontFamily="@font/roboto_medium"
-                        android:text="Welcome to MomMom"
+                        android:text="Register account MomMom"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_15ssp" />
 
@@ -104,6 +104,20 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <EditText
+                        android:id="@+id/edtConfirmPassRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_8sdp"
+                        android:background="@drawable/edt_custom"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Confirm password"
+                        android:inputType="textPassword"
+                        android:padding="@dimen/_8sdp"
+                        android:textSize="@dimen/_14ssp" />
+
+                    <EditText
                         android:id="@+id/edtFullNameRegister"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_36sdp"
@@ -113,20 +127,6 @@
                         android:background="@drawable/edt_custom"
                         android:fontFamily="@font/roboto_regular"
                         android:hint="Full name"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
-                    <EditText
-                        android:id="@+id/edtPhoneNumberRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Phone number"
                         android:inputType="text"
                         android:padding="@dimen/_8sdp"
                         android:textSize="@dimen/_14ssp" />
@@ -159,24 +159,10 @@
                         android:padding="@dimen/_8sdp"
                         android:textSize="@dimen/_14ssp" />
 
-                    <EditText
-                        android:id="@+id/edtAddressRegister"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginRight="@dimen/_8sdp"
-                        android:background="@drawable/edt_custom"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="Address"
-                        android:inputType="text"
-                        android:padding="@dimen/_8sdp"
-                        android:textSize="@dimen/_14ssp" />
-
                     <Spinner
                         android:id="@+id/spnKernelStatus"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginRight="@dimen/_8sdp"
@@ -189,7 +175,7 @@
                     <Spinner
                         android:id="@+id/spnVotingStatus"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginRight="@dimen/_8sdp"
@@ -202,7 +188,7 @@
                     <Spinner
                         android:id="@+id/spnNumberBaby"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:layout_marginTop="@dimen/_6sdp"
                         android:layout_marginRight="@dimen/_8sdp"

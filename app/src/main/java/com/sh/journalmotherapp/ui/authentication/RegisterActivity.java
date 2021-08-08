@@ -42,21 +42,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private CircleImageView imvImage;
     private ProgressDialog progressDialog;
     private Spinner spnKernelStatus, spnVotingStatus, spnNumberBaby;
-    private EditText edtName, edtAddress, edtPhone, edtUsername, edtPassword, edtBirthDay, edtEmail;
+    private EditText edtName, edtUsername, edtPassword, edtBirthDay, edtEmail;
 
     // Creating URI.
     private Uri FilePathUri;
 
     private StorageReference storageReference;
 
-    // Image request code for onActivityResult() .
+    // Image request code for onActivityResult()
     private final int Image_Request_Code = 9;
 
     private ApiService apiService;
 
-    private final String arrKernelStatus[] = {"Single", "Married", "Separated", "Divorced"};
-    private final String arrNumberBabies[] = {"1 baby", "2 babies", "3 babies", "4 babies", "5 babies", "5 babies more"};
-    private final String arrVotingStatus[] = {"First trimester – conception to 12 weeks", "Second trimester – 12 to 24 weeks", "Third trimester – 24 to 40 weeks",
+    private final String arrKernelStatus[] = {"Marital status", "Single", "Married", "Separated", "Divorced"};
+    private final String arrNumberBabies[] = {"How many babies have you had?", "1 baby", "2 babies", "3 babies", "4 babies", "5 babies more"};
+    private final String arrVotingStatus[] = {"Fetal status", "First trimester – conception to 12 weeks", "Second trimester – 12 to 24 weeks", "Third trimester – 24 to 40 weeks",
             "Postpartum period (6 weeks after birth)", "3 to 6 months after birth", "New normal mom (6 to 18 months of postpartum)"};
 
     private String kernelStatus;
@@ -83,8 +83,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         progressDialog.setCanceledOnTouchOutside(false);
 
         edtName = this.findViewById(R.id.edtFullNameRegister);
-        edtAddress = this.findViewById(R.id.edtAddressRegister);
-        edtPhone = this.findViewById(R.id.edtPhoneNumberRegister);
         edtUsername = this.findViewById(R.id.edtUsernameRegister);
         edtPassword = this.findViewById(R.id.edtPassRegister);
         edtBirthDay = this.findViewById(R.id.edtYearOfBirthRegister);
@@ -149,8 +147,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void clearData() {
         FilePathUri = null;
         edtName.setText("");
-        edtPhone.setText("");
-        edtAddress.setText("");
         edtUsername.setText("");
         edtPassword.setText("");
         edtBirthDay.setText("");
@@ -176,15 +172,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private void onClickRegister() {
         String name = edtName.getText().toString();
-        String address = edtAddress.getText().toString();
-        String phoneNumber = edtPhone.getText().toString();
         String username = edtUsername.getText().toString();
         String password = edtPassword.getText().toString();
         String birthDay = edtBirthDay.getText().toString();
         String email = edtEmail.getText().toString();
 
-        if (name.isEmpty() || address.isEmpty() || phoneNumber.isEmpty() || username.isEmpty() || password.isEmpty() || FilePathUri == null || email.isEmpty()) {
+        if (name.isEmpty() || username.isEmpty() || password.isEmpty() || FilePathUri == null || email.isEmpty()) {
             Toast.makeText(this, getResources().getString(R.string.vui_long_nhap_day_du_thong_tin), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (kernelStatus.equalsIgnoreCase(arrKernelStatus[0])) {
+            Toast.makeText(this, getResources().getString(R.string.vui_long_chon_kernel), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (votingStatus.equalsIgnoreCase(arrVotingStatus[0])) {
+            Toast.makeText(this, getResources().getString(R.string.vui_long_chon_voting), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (numberBaby.equalsIgnoreCase(arrNumberBabies[0])) {
+            Toast.makeText(this, getResources().getString(R.string.vui_long_chon_number_baby), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -203,8 +209,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     .username(username)
                                     .password(password)
                                     .fullName(name)
-                                    .mobile(phoneNumber)
-                                    .address(address)
                                     .email(email)
                                     .imageUrl(imageUrl)
                                     .yearOfBirth(Integer.valueOf(birthDay))

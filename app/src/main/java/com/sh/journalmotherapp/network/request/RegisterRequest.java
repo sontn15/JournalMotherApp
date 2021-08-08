@@ -13,11 +13,7 @@ public class RegisterRequest {
 
     private String fullName;
 
-    private String mobile;
-
     private String email;
-
-    private String address;
 
     private String imageUrl;
 

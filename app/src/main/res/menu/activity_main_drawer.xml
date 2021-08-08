@@ -5,17 +5,19 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_the_journal"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/menu_memory" />
+
+        <item
+            android:id="@+id/nav_ask_for_help"
+            android:icon="@drawable/ic_baseline_group_24"
+            android:title="@string/menu_support" />
+
+        <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_baseline_ac_unit_24"
             android:title="@string/menu_news" />
-        <item
-            android:id="@+id/nav_support"
-            android:icon="@drawable/ic_baseline_group_24"
-            android:title="@string/menu_support" />
-        <item
-            android:id="@+id/nav_memory"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_memory" />
 
         <item
             android:id="@+id/nav_account"

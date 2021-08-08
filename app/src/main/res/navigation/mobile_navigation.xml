@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_news">
+    app:startDestination="@+id/nav_the_journal">
+
+    <fragment
+        android:id="@+id/nav_the_journal"
+        android:name="com.sh.journalmotherapp.ui.journal.TheJournalFragment"
+        android:label="@string/menu_memory"
+        tools:layout="@layout/fragment_the_journal" />
+
+    <fragment
+        android:id="@+id/nav_ask_for_help"
+        android:name="com.sh.journalmotherapp.ui.askforhelp.AskForHelpFragment"
+        android:label="@string/menu_support"
+        tools:layout="@layout/fragment_ask_for_help" />
 
     <fragment
         android:id="@+id/nav_news"
         android:name="com.sh.journalmotherapp.ui.news.NewsFragment"
         android:label="@string/menu_news"
         tools:layout="@layout/fragment_news" />
-
-    <fragment
-        android:id="@+id/nav_support"
-        android:name="com.sh.journalmotherapp.ui.post.PostFragment"
-        android:label="@string/menu_support"
-        tools:layout="@layout/fragment_post" />
-
-    <fragment
-        android:id="@+id/nav_memory"
-        android:name="com.sh.journalmotherapp.ui.memory.MemoryFragment"
-        android:label="@string/menu_memory"
-        tools:layout="@layout/fragment_memory" />
 
     <fragment
         android:id="@+id/nav_account"

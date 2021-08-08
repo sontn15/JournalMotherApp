@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.memory;
+package com.sh.journalmotherapp.ui.journal;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -11,22 +11,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.constant.PostModeEnum;
-import com.sh.journalmotherapp.constant.PostTypeEnum;
 import com.sh.journalmotherapp.database.MySharedPreferences;
 import com.sh.journalmotherapp.model.UserEntity;
 import com.sh.journalmotherapp.network.ApiService;
@@ -41,64 +40,97 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddMemoryActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    ImageView imv_memory;
-    EditText edt_felling, edt_content;
-    Button btn_Cancel, btn_Save;
+public class CreateTheJournalActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Creating URI.
-    Uri FilePathUri;
+    private Spinner spnType, spnMode;
+    private ImageView imageView;
+    private Button btnCancel, btnPost;
+    private RadioButton radioPublic, radioAnonymous;
+    private EditText titleEditText, descriptionEditText;
 
-    StorageReference storageReference;
-    DatabaseReference databaseReference;
+    private UserEntity userLogin;
+    private MySharedPreferences preferences;
 
-    // Image request code for onActivityResult() .
-    int Image_Request_Code = 7;
+    private Uri FilePathUri;
+    private int Image_Request_Code = 8;
 
-    ProgressDialog progressDialog;
-
-    UserEntity userLogin;
-    MySharedPreferences preferences;
+    private ProgressDialog progressDialog;
 
     private ApiService apiService;
+    private StorageReference storageReference;
+
+    private String typeSpinner;
+    private String modeSpinner;
+    private final String arrTypeSpinner[] = {"#memories", "#ask_for_help"};
+    private final String arrModeSpinner[] = {"Public", "Private"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_memory);
+        setContentView(R.layout.activity_create_the_journal);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Post a journal");
-
-        initViews();
+        getSupportActionBar().setTitle("Create a journal");
         initData();
+        initView();
         clearData();
-    }
-
-    private void initViews() {
-        imv_memory = this.findViewById(R.id.imageView_memory);
-        edt_felling = this.findViewById(R.id.fellingEditText);
-        edt_content = this.findViewById(R.id.contentEditText);
-        btn_Cancel = this.findViewById(R.id.btnCancel_memory);
-        btn_Save = this.findViewById(R.id.btnSave_memory);
-
-        progressDialog = new ProgressDialog(AddMemoryActivity.this);
-        progressDialog.setCanceledOnTouchOutside(false);
-
-        btn_Save.setOnClickListener(this);
-        btn_Cancel.setOnClickListener(this);
-        imv_memory.setOnClickListener(this);
     }
 
     private void initData() {
         preferences = new MySharedPreferences(this);
         userLogin = preferences.getUserLogin(Const.KEY_SHARE_PREFERENCE.USER_LOGIN);
-
-        // Assign FirebaseStorage instance to storageReference.
-        storageReference = FirebaseStorage.getInstance().getReference();
-
-        // Assign FirebaseDatabase instance with root database name.
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         apiService = RetrofitClient.getClient().create(ApiService.class);
+        storageReference = FirebaseStorage.getInstance().getReference();
+    }
+
+    private void initView() {
+        imageView = this.findViewById(R.id.imageView);
+        titleEditText = this.findViewById(R.id.titleEditText);
+        descriptionEditText = this.findViewById(R.id.descriptionEditText);
+
+        btnPost = this.findViewById(R.id.btnPost);
+        btnCancel = this.findViewById(R.id.btnCancel);
+
+        radioPublic = this.findViewById(R.id.radioPublic);
+        radioAnonymous = this.findViewById(R.id.radioAnonymous);
+
+        spnType = this.findViewById(R.id.spnType);
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrTypeSpinner);
+        spnType.setAdapter(typeAdapter);
+
+        spnMode = this.findViewById(R.id.spnMode);
+        ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, arrModeSpinner);
+        spnMode.setAdapter(modeAdapter);
+
+        progressDialog = new ProgressDialog(CreateTheJournalActivity.this);
+        progressDialog.setCanceledOnTouchOutside(false);
+
+        btnPost.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
+        imageView.setOnClickListener(this);
+
+        spnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                typeSpinner = arrTypeSpinner[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spnMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                modeSpinner = arrModeSpinner[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -113,19 +145,23 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.imageView_memory:
-                onClickPickImageMemory();
+            case R.id.imageView: {
+                onClickPickImage();
                 break;
-            case R.id.btnCancel_memory:
-                onClickCancelPostMemory();
+            }
+            case R.id.btnPost: {
+                onCreatePost();
                 break;
-            case R.id.btnSave_memory:
-                onClickSaveMemory();
+            }
+
+            case R.id.btnCancel: {
+                onBackPressed();
                 break;
+            }
         }
     }
 
-    private void onClickSaveMemory() {
+    private void onCreatePost() {
         if (FilePathUri != null) {
             progressDialog.setTitle(getResources().getString(R.string.dang_dang_bai) + "...");
             progressDialog.show();
@@ -137,52 +173,54 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
                     .addOnSuccessListener(taskSnapshot -> {
                         storageReference2nd.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
-                            String title = edt_felling.getText().toString();
-                            String content = edt_content.getText().toString();
+
+                            String title = titleEditText.getText().toString();
+                            String content = descriptionEditText.getText().toString();
+
+                            boolean isAnonymous = false;
+                            if (radioAnonymous.isChecked()) {
+                                isAnonymous = true;
+                            }
 
                             PostRequest postRequest = new PostRequest();
                             postRequest.setTitle(title);
                             postRequest.setContent(content);
                             postRequest.setImageUrl(imageUrl);
-                            postRequest.setIsAnonymous(false);
+                            postRequest.setMode(modeSpinner);
+                            postRequest.setType(typeSpinner);
+                            postRequest.setIsAnonymous(isAnonymous);
                             postRequest.setAuthorId(userLogin.getId());
-                            postRequest.setMode(PostModeEnum.PRIVATE.getName());
-                            postRequest.setType(PostTypeEnum.MEMORIES.getName());
 
                             Call<Void> callAddPost = apiService.addPost(postRequest);
                             callAddPost.enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_memory_success), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateTheJournalActivity.this, getResources().getString(R.string.create_post_success), Toast.LENGTH_SHORT).show();
                                     onBackPressed();
                                 }
 
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_memory_failed), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreateTheJournalActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         });
                     })
                     .addOnFailureListener(exception -> {
                         progressDialog.dismiss();
-                        Toast.makeText(AddMemoryActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateTheJournalActivity.this, getResources().getString(R.string.create_post_failed), Toast.LENGTH_SHORT).show();
                     })
 
                     // On progress change upload time.
                     .addOnProgressListener(taskSnapshot -> progressDialog.setTitle(getResources().getString(R.string.dang_dang_bai) + "..."));
         } else {
-            Toast.makeText(AddMemoryActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateTheJournalActivity.this, "Please Select Image", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void onClickCancelPostMemory() {
-        onBackPressed();
-    }
-
-    private void onClickPickImageMemory() {
+    private void onClickPickImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -196,7 +234,7 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
             FilePathUri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), FilePathUri);
-                imv_memory.setImageBitmap(bitmap);
+                imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -210,21 +248,14 @@ public class AddMemoryActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        edt_felling.setText(parent.getItemAtPosition(position).toString());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
     private void clearData() {
         FilePathUri = null;
-        edt_felling.setText("");
-        edt_content.setText("");
-        imv_memory.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));
+        spnType.setSelection(0);
+        spnMode.setSelection(0);
+        titleEditText.setText("");
+        radioPublic.setChecked(true);
+        descriptionEditText.setText("");
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_thumbnail));
     }
 
 }

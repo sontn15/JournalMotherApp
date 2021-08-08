@@ -25,7 +25,7 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
     private CircleImageView imvImage;
     private TextView tvNameUser, tvBirthDayUser;
     private TextView tvKernelStatus, tvVotingStatus, tvNumberBaby;
-    private TextView tvUsernameUser, tvFullNameUser, tvBirthDay, tvAddressUser, tvPhoneUser;
+    private TextView tvUsernameUser, tvFullNameUser, tvBirthDay;
     private TextView tvLogOut;
 
     private UserEntity userLogin;
@@ -52,9 +52,7 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         tvKernelStatus.setText(userLogin.getKernelStatus());
         tvVotingStatus.setText(userLogin.getVotingStatus());
         tvNumberBaby.setText(userLogin.getNumberBaby());
-        tvPhoneUser.setText(userLogin.getMobile());
         tvBirthDay.setText(userLogin.getYearOfBirth() + "");
-        tvAddressUser.setText(userLogin.getAddress());
         tvFullNameUser.setText(userLogin.getFullName());
         tvUsernameUser.setText(userLogin.getUsername());
 
@@ -66,8 +64,6 @@ public class DetailUserActivity extends AppCompatActivity implements View.OnClic
         imvImage = this.findViewById(R.id.imvUser);
         tvBirthDay = this.findViewById(R.id.tvBirthDay);
         tvNameUser = this.findViewById(R.id.tvNameUser);
-        tvPhoneUser = this.findViewById(R.id.tvPhoneUser);
-        tvAddressUser = this.findViewById(R.id.tvAddressUser);
         tvBirthDayUser = this.findViewById(R.id.tvBirthDayUser);
         tvUsernameUser = this.findViewById(R.id.tvUsernameUser);
         tvFullNameUser = this.findViewById(R.id.tvFullNameUser);

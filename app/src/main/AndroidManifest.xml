@@ -46,15 +46,19 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.post.CreatePostActivity"
+            android:name=".ui.askforhelp.CreateAskForHelpActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.post.DetailPostActivity"
+            android:name=".ui.askforhelp.DetailAskForHelpActivity"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name=".ui.memory.AddMemoryActivity"
+            android:name=".ui.journal.CreateTheJournalActivity"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.journal.DetailTheJournalActivity"
             android:theme="@style/AppTheme" />
 
         <activity
@@ -63,10 +67,6 @@
 
         <activity
             android:name=".ui.news.DetailNewsActivity"
-            android:theme="@style/AppTheme" />
-
-        <activity
-            android:name=".ui.authentication.UpdateProfileUserActivity"
             android:theme="@style/AppTheme" />
 
 

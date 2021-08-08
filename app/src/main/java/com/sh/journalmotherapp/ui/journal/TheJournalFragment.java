@@ -1,4 +1,4 @@
-package com.sh.journalmotherapp.ui.post;
+package com.sh.journalmotherapp.ui.journal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sh.journalmotherapp.R;
-import com.sh.journalmotherapp.adapter.PostAdapter;
-import com.sh.journalmotherapp.constant.PostTypeEnum;
+import com.sh.journalmotherapp.adapter.TheJournalAdapter;
 import com.sh.journalmotherapp.model.PostEntity;
 import com.sh.journalmotherapp.network.ApiService;
 import com.sh.journalmotherapp.network.RetrofitClient;
@@ -31,7 +30,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PostFragment extends Fragment implements View.OnClickListener {
+
+public class TheJournalFragment extends Fragment implements View.OnClickListener {
 
     private View root;
 
@@ -39,13 +39,13 @@ public class PostFragment extends Fragment implements View.OnClickListener {
     private CircleImageView imvYou;
     private RecyclerView rcvPost;
 
-    private PostAdapter postAdapter;
+    private TheJournalAdapter theJournalAdapter;
     private List<PostEntity> postModelList;
 
     private ApiService apiService;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.fragment_post, container, false);
+        root = inflater.inflate(R.layout.fragment_the_journal, container, false);
         initData();
         initView();
         initAdapter();
@@ -73,22 +73,22 @@ public class PostFragment extends Fragment implements View.OnClickListener {
 
     private void initAdapter() {
         postModelList = new ArrayList<>();
-        postAdapter = new PostAdapter(requireContext(), postModelList, model -> {
+        theJournalAdapter = new TheJournalAdapter(requireContext(), postModelList, model -> {
             Bundle mBundle = new Bundle();
             mBundle.putParcelable(Const.POST_SELECTED, model);
-            Intent intent = new Intent(requireActivity(), DetailPostActivity.class);
+            Intent intent = new Intent(requireActivity(), DetailTheJournalActivity.class);
             intent.putExtras(mBundle);
             startActivity(intent);
         });
 
-        rcvPost.setAdapter(postAdapter);
+        rcvPost.setAdapter(theJournalAdapter);
 
         getAllPosts();
     }
 
     private void getAllPosts() {
         if (NetworkUtils.haveNetwork(requireContext())) {
-            Call<List<PostEntity>> call = apiService.getPosts(null, PostTypeEnum.ASK_FOR_HELP.getName());
+            Call<List<PostEntity>> call = apiService.getPosts(null, null);
             call.enqueue(new Callback<List<PostEntity>>() {
                 @Override
                 public void onResponse(Call<List<PostEntity>> call, Response<List<PostEntity>> response) {
@@ -99,7 +99,7 @@ public class PostFragment extends Fragment implements View.OnClickListener {
                             postModelList.addAll(models);
                         }
                     }
-                    postAdapter.notifyDataSetChanged();
+                    theJournalAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -127,13 +127,11 @@ public class PostFragment extends Fragment implements View.OnClickListener {
     }
 
     private void onClickCreateNewPost() {
-        Intent intent = new Intent(requireActivity(), CreatePostActivity.class);
+        Intent intent = new Intent(requireActivity(), CreateTheJournalActivity.class);
         startActivity(intent);
     }
 
     private void onClickViewProfile() {
 
     }
-
-
 }

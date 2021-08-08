@@ -20,12 +20,12 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+public class TheJournalAdapter extends RecyclerView.Adapter<TheJournalAdapter.PostViewHolder> {
     private final Context mContext;
     private final List<PostEntity> listPostModels;
     private final OnPostItemClickListener listener;
 
-    public PostAdapter(Context mContext, List<PostEntity> listPostModels, OnPostItemClickListener listener) {
+    public TheJournalAdapter(Context mContext, List<PostEntity> listPostModels, OnPostItemClickListener listener) {
         this.mContext = mContext;
         this.listPostModels = listPostModels;
         this.listener = listener;
@@ -35,7 +35,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.item_post, parent, false);
+        View view = inflater.inflate(R.layout.item_the_journal, parent, false);
         return new PostViewHolder(view);
     }
 
@@ -58,6 +58,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 .error(R.drawable.ic_app_256).into(holder.authorImageView);
 
         holder.dateTextView.setText(model.getCreatedDate());
+        holder.tvHashtag.setText(model.getType());
 
         holder.bind(model, listener);
     }
@@ -72,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
-        protected TextView titleTextView, detailsTextView;
+        protected TextView titleTextView, detailsTextView, tvHashtag;
         protected ImageView postImageView;
         protected CircleImageView authorImageView;
 
@@ -85,6 +86,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             postImageView = itemView.findViewById(R.id.postImageView);
             authorImageView = itemView.findViewById(R.id.authorImageView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
+            tvHashtag = itemView.findViewById(R.id.tvHashtag);
         }
 
         public void bind(final PostEntity model, final OnPostItemClickListener listener) {

@@ -11,37 +11,28 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
-            android:id="@+id/tv_img_share"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:fontFamily="@font/roboto_medium"
-            android:paddingBottom="@dimen/_8sdp"
-            android:text="Share the moment"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_14ssp" />
-
         <ImageView
-            android:id="@+id/imageView_memory"
+            android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_below="@+id/tv_img_share"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/_8sdp"
+            android:focusable="true"
             android:src="@drawable/ic_stub" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_feeling"
+            android:id="@+id/input_layout_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imageView_memory"
+            android:layout_below="@+id/imageView"
             android:layout_marginBottom="@dimen/_8sdp">
 
             <EditText
-                android:id="@+id/fellingEditText"
+                android:id="@+id/titleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_felling"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/hint_title"
                 android:inputType="textMultiLine" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -51,28 +42,86 @@
             android:id="@+id/input_layout_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/input_layout_feeling">
+            android:layout_below="@+id/input_layout_title">
 
             <EditText
-                android:id="@+id/contentEditText"
+                android:id="@+id/descriptionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="start"
-                android:hint="@string/hint_memory"
+                android:hint="@string/hint_description"
                 android:inputType="textMultiLine" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/tvMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/input_layout_description"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="Choice post mode"
+            android:textSize="@dimen/_14ssp" />
+
+        <Spinner
+            android:id="@+id/spnMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMode"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:spinnerMode="dropdown"
+            android:textSize="@dimen/_14ssp" />
+
+        <TextView
+            android:id="@+id/tvIncognitoMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spnMode"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="Choice incognito mode"
+            android:textSize="@dimen/_14ssp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupPrivatePost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvIncognitoMode"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radioPublic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="Public" />
+
+            <RadioButton
+                android:id="@+id/radioAnonymous"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Anonymous" />
+        </RadioGroup>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
-            android:layout_below="@+id/input_layout_description"
+            android:layout_below="@+id/radioGroupPrivatePost"
             android:layout_marginTop="@dimen/_18sdp"
             android:layout_marginBottom="@dimen/_18sdp"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCancel_memory"
+                android:id="@+id/btnCancel"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -86,7 +135,7 @@
                 android:textSize="@dimen/_12ssp" />
 
             <Button
-                android:id="@+id/btnSave_memory"
+                android:id="@+id/btnPost"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -95,7 +144,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/edt_custom_xanhdatroi"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Save"
+                android:text="Post"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_12ssp" />
 
